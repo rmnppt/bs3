@@ -10,7 +10,7 @@ import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import { Link } from 'react-router-dom';
 
-export default function BasicCard({post}) {
+export default function BasicCard({ post }) {
   return (
     <Card sx={{ minWidth: 275, maxHeight: 275, my: 2, mx: 2 }}>
       <CardContent>
@@ -31,7 +31,7 @@ export default function BasicCard({post}) {
                 </Button>
               </Stack>
             </CardActions>
-          <CardActionArea component={Link} to={`p/{post.id}`}>
+          <CardActionArea component={Link} to={`p/${post.id}`}>
               <Stack direction="row" spacing={1}>
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                 {post.author}
