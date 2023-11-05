@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import Post, { loader as postLoader } from './pages/post-detail.js'
 import ErrorPage from "./pages/error-page";
+import PostForm from './pages/new-post-form.js';
+import CardList from './components/post-list.js';
 import reportWebVitals from './reportWebVitals';
 import {
   createBrowserRouter,
@@ -15,12 +17,22 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: "p/:postId",
-    element: <Post />,
-    loader: postLoader
-  },
+    children: [
+      {
+        path: "/",
+        element: <CardList />
+      },
+      {
+        path: "p/:postId",
+        element: <Post />,
+        loader: postLoader
+      },
+      {
+        path: "new",
+        element: <PostForm />
+      }
+    ]
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

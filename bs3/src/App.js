@@ -1,11 +1,11 @@
 import './App.css';
-import CardList from './components/post-list';
 import BottomAppBar from './components/bottom-app-bar';
+import { Outlet } from 'react-router-dom';
 
 function App() {
   return (
     <div className="App">
-      <CardList></CardList>          
+      <Outlet />
       <BottomAppBar></BottomAppBar>
     </div>
   );

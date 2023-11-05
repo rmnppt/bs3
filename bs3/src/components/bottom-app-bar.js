@@ -13,6 +13,7 @@ import Fab from '@mui/material/Fab';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Slide from '@mui/material/Slide';
 import PropTypes from 'prop-types';
+import { Typography } from '@mui/material';
 
 
 function HideOnScroll(props) {
