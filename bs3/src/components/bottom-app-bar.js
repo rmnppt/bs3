@@ -1,19 +1,15 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import Fab from '@mui/material/Fab';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Slide from '@mui/material/Slide';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
 
 function HideOnScroll(props) {
@@ -34,15 +30,6 @@ HideOnScroll.propTypes = {
     children: PropTypes.element.isRequired,
   };
 
-const StyledFab = styled(Fab)({
-    position: 'absolute',
-    zIndex: 1,
-    top: -30,
-    left: 0,
-    right: 0,
-    margin: '0 auto',
-  });
-
 export default function BottomAppBar() {
     return (
       <React.Fragment>
@@ -51,17 +38,17 @@ export default function BottomAppBar() {
                 <AppBar position="fixed" color="primary" sx={{ top: 'auto', bottom: 0 }}>
                     <Toolbar>
                         <IconButton color="inherit" aria-label="open drawer">
-                        <MenuIcon />
+                          <MenuIcon />
                         </IconButton>
-                        <StyledFab color="secondary" aria-label="add" component={ Link } to={"new"}>
-                        <AddIcon />
-                        </StyledFab>
+                        {/* <StyledFab color="secondary" aria-label="add" component={ Link } to={"new"}>
+                          <AddIcon />
+                        </StyledFab> */}
                         <Box sx={{ flexGrow: 1 }} />
                         <IconButton color="inherit">
-                        <SearchIcon />
+                          <SearchIcon />
                         </IconButton>
                         <IconButton color="inherit">
-                        <MoreIcon />
+                          <MoreIcon />
                         </IconButton>
                     </Toolbar>
                 </AppBar>
