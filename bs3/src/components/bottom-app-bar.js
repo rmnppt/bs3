@@ -13,7 +13,7 @@ import Fab from '@mui/material/Fab';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Slide from '@mui/material/Slide';
 import PropTypes from 'prop-types';
-import { Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 
 function HideOnScroll(props) {
@@ -53,7 +53,7 @@ export default function BottomAppBar() {
                         <IconButton color="inherit" aria-label="open drawer">
                         <MenuIcon />
                         </IconButton>
-                        <StyledFab color="secondary" aria-label="add">
+                        <StyledFab color="secondary" aria-label="add" component={ Link } to={"new"}>
                         <AddIcon />
                         </StyledFab>
                         <Box sx={{ flexGrow: 1 }} />
