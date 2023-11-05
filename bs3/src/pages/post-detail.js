@@ -5,6 +5,8 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import { getPost } from '../api/post';
 import { useLoaderData } from "react-router-dom";
+import { Button } from '@mui/material';
+import { Box } from '@mui/material';
 
 export function loader({ params }) {
   var post = getPost(params.postId);
@@ -14,6 +16,7 @@ export function loader({ params }) {
 function Post() {
   var post = useLoaderData();
   return (
+    <div>
       <Paper sx={{ my: 2, mx: 2, py: 2, px: 2}}>
           <Stack direction="row" spacing={1}>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
@@ -28,6 +31,10 @@ function Post() {
             {post.body}
           </Typography>
       </Paper>
+      <Box textAlign="center">
+        <Button>Go Back</Button>
+      </Box>
+    </div>
   )
 }
 
