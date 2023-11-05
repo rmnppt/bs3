@@ -7,6 +7,7 @@ import { getPost } from '../api/post';
 import { useLoaderData } from "react-router-dom";
 import { Button } from '@mui/material';
 import { Box } from '@mui/material';
+import MainActionFab from '../components/main-action-buttons';
 
 export function loader({ params }) {
   var post = getPost(params.postId);
@@ -31,9 +32,7 @@ function Post() {
             {post.body}
           </Typography>
       </Paper>
-      <Box textAlign="center">
-        <Button>Go Back</Button>
-      </Box>
+      <MainActionFab type="back"/>
     </div>
   )
 }

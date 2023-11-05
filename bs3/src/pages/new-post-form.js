@@ -7,6 +7,7 @@ import {
     Stack,
     FormHelperText,
 } from "@mui/material";
+import MainActionFab from "../components/main-action-buttons";
 
 
 export default function PostForm() {
@@ -25,6 +26,7 @@ export default function PostForm() {
                 <TextField label="Title" />
                 <TextField label="Body" multiline />
             </Stack>
+            <MainActionFab type="submit"/>
         </Paper>
     )
 }

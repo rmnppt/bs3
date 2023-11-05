@@ -5,7 +5,7 @@ import App from './App';
 import Post, { loader as postLoader } from './pages/post-detail.js'
 import ErrorPage from "./pages/error-page";
 import PostForm from './pages/new-post-form.js';
-import CardList from './components/post-list.js';
+import PostList from './pages/post-list.js';
 import reportWebVitals from './reportWebVitals';
 import {
   createBrowserRouter,
@@ -20,7 +20,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <CardList />
+        element: <PostList />
       },
       {
         path: "p/:postId",
