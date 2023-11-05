@@ -7,14 +7,14 @@ import { getPost } from '../api/post';
 import { useLoaderData } from "react-router-dom";
 
 export function loader({ params }) {
-  const post = getPost(params.postId);
+  var post = getPost(params.postId);
   return post;
 }
 
 function Post() {
-  let post = useLoaderData();
+  var post = useLoaderData();
   return (
-      <Paper>
+      <Paper sx={{ my: 2, mx: 2, py: 2, px: 2}}>
           <Stack direction="row" spacing={1}>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
             {post.author}

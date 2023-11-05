@@ -1,6 +1,6 @@
 var posts = [
     {
-        id: 1,
+        id: "1",
         author: "dave",
         title: "The Goal Ferry Bridge is Open",
         tag: "EVENT",
@@ -9,7 +9,7 @@ var posts = [
         downVotes: 12
     }, 
     {
-        id: 2,
+        id: "2",
         author: "charlie111",
         title: "I have a parrot for sale",
         tag: "SALE",
@@ -18,7 +18,7 @@ var posts = [
         downVotes: 8
     }, 
     {
-        id: 3,
+        id: "3",
         author: "elite-penguin",
         title: "Respond to the planning consultation",
         tag: "DISCUSSION",
@@ -27,7 +27,7 @@ var posts = [
         downVotes: 2
     },
     {
-        id: 4,
+        id: "4",
         author: "soggyshirt",
         title: "I can't dry my washing",
         tag: "DISCUSSION",
@@ -36,7 +36,7 @@ var posts = [
         downVotes: 38
     },
     {
-        id: 5,
+        id: "5",
         author: "stickersnitch",
         title: "Too many stickers!",
         tag: "DISCUSSION",
@@ -45,7 +45,7 @@ var posts = [
         downVotes: 12
     },
     {
-        id: 6,
+        id: "6",
         author: "rugbyfan",
         title: "What about that match last night.",
         tag: "DISCUSSION",
@@ -57,7 +57,7 @@ var posts = [
 ]
 
 function getPost(postId) {
-    let post = posts.find((p) => p.id = postId);
+    var post = posts.find(p => p.id === postId);
     return post;
 }
 
