@@ -14,8 +14,7 @@ const StyledFab = styled(Fab)({
     margin: '0 auto',
   });
 
-
-export default function MainActionFab({ type }) {
+export default function MainActionFab({ type, clickHandler }) {
     switch(type) {
         
         case type = "new":
@@ -27,7 +26,7 @@ export default function MainActionFab({ type }) {
 
         case type = "submit":
             return (
-                <StyledFab color="secondary" aria-label="send" component={ Link } to={"/"}>
+                <StyledFab color="secondary" aria-label="send" type="submit" onClick={clickHandler} component={ Link } to={"/"}>
                   <SendIcon />
                 </StyledFab>
             )
