@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import SendIcon from '@mui/icons-material/Send';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { submitPost } from '../api/post';
 
 const StyledFab = styled(Fab)({
     position: 'fixed',
@@ -13,7 +12,7 @@ const StyledFab = styled(Fab)({
     left: 0,
     right: 0,
     margin: '0 auto',
-  });
+});
 
 export default function MainActionFab({ type, clickHandler }) {
     switch(type) {
@@ -27,7 +26,7 @@ export default function MainActionFab({ type, clickHandler }) {
 
         case type = "submit":
             return (
-                <StyledFab color="secondary" aria-label="send" type="submit" onClick={clickHandler} component={ Link } to={"/"}>
+                <StyledFab color="secondary" aria-label="send" type="submit" onClick={clickHandler}>
                   <SendIcon />
                 </StyledFab>
             )

@@ -53,7 +53,6 @@ var posts = [
         upVotes: 1,
         downVotes: 5
     }
-
 ]
 
 function getPost(postId) {

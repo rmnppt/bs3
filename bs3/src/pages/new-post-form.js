@@ -14,9 +14,12 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import TitleIcon from '@mui/icons-material/Title';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import { useState } from "react";
+import { useOutletContext, useNavigate } from "react-router-dom";
 
 export default function PostForm() {
-    const [formValues, setFormValues] = useState({});
+    const navigate = useNavigate();
+    const [formValues, setFormValues] = useState({tag: "DISCUSSION"});
+    const [posts, setPosts] = useOutletContext();
 
     function handleTextFieldChange(event) {
         const { name, value } = event.target;
@@ -35,8 +38,18 @@ export default function PostForm() {
     }
 
     function handleSubmit() {
+        let maxId = 0;
+        let ids = posts.map((p) => p.id);
+        maxId = Math.max(...ids);
+        const newPost = {...formValues, ...{ 
+            id: (maxId + 1).toString(),
+            upVotes: 0,
+            downVotes:0 
+        }}
+        console.log(newPost);
+        setPosts([...posts, newPost]);
         console.log("Post Submitted:");
-        console.log(formValues);
+        navigate("/");
     }
     
     return (
@@ -46,10 +59,14 @@ export default function PostForm() {
                     <Stack direction="column" spacing={2}>
                         <Stack direction="column">
                         <FormHelperText label="Type">Type</FormHelperText>
-                            <RadioGroup row label="Type" onChange={handleRadioGroupChange}>
-                                <FormControlLabel name="type" value="event" control={<Radio />} label="Event" />
-                                <FormControlLabel name="type" value="discussion" control={<Radio />} label="Discussion" />
-                                <FormControlLabel name="type" value="sale" control={<Radio />} label="Sale" />
+                            <RadioGroup row 
+                                name="selectedTag" 
+                                label="Tag" 
+                                onChange={handleRadioGroupChange}
+                                defaultValue="DISCUSSION">
+                                <FormControlLabel name="tag" value="DISCUSSION" control={<Radio />} label="Discussion" />
+                                <FormControlLabel name="tag" value="EVENT" control={<Radio />} label="Event" />
+                                <FormControlLabel name="tag" value="SALE" control={<Radio />} label="Sale" />
                             </RadioGroup>
                         </Stack>
                         <TextField name="author" label="Author" onChange={handleTextFieldChange}

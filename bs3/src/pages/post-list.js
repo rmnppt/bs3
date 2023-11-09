@@ -1,12 +1,16 @@
 import React from "react";
 import BasicCard from "../components/post-card";
-import { posts } from "../api/post";
 import MainActionFab from "../components/main-action-buttons";
-
+import { useOutletContext } from "react-router-dom";
 
 class PostList extends React.Component {
+    constructor(posts) {
+        super()
+    }
+
     render() {
-        return posts.map(p => {
+        
+        return this.props.posts.map(p => {
             return (
                 <div key={p.id}>
                     <BasicCard 
@@ -20,10 +24,12 @@ class PostList extends React.Component {
 }
 
 export default function PostListPage() {
+    const [posts] = useOutletContext();
+
     return (
         <div>
             <MainActionFab type="new" />
-            <PostList />
+            <PostList posts={posts}/>
         </div>
     )
 }
