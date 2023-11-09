@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import SendIcon from '@mui/icons-material/Send';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { submitPost } from '../api/post';
 
 const StyledFab = styled(Fab)({
     position: 'fixed',

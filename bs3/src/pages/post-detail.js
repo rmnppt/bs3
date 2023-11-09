@@ -5,8 +5,6 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import { getPost } from '../api/post';
 import { useLoaderData } from "react-router-dom";
-import { Button } from '@mui/material';
-import { Box } from '@mui/material';
 import MainActionFab from '../components/main-action-buttons';
 
 export function loader({ params }) {
