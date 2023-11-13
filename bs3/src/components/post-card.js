@@ -10,6 +10,13 @@ import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import { Link } from 'react-router-dom';
 
+function ConditionalLink({ children, condition, ...props }) {
+  return !!condition && props.to ? <Link {...props} 
+                                    style={{textDecoration: 'none', color: "inherit"}}>
+                                      {children}
+                                    </Link> : <>{children}</>
+}
+
 export default function BasicCard({ post, extended = false}) {
   
   if (extended === false) {
@@ -36,7 +43,8 @@ export default function BasicCard({ post, extended = false}) {
                 </Button>
               </Stack>
             </CardActions>
-          <CardActionArea component={Link} to={`p/${post.id}`}>
+          <ConditionalLink condition={!extended} to={`p/${post.id}`}>
+          <CardActionArea>
               <Stack direction="row" spacing={1}>
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                 {post.author}
@@ -50,6 +58,7 @@ export default function BasicCard({ post, extended = false}) {
                 {post.body}
               </Typography>
           </CardActionArea>
+          </ConditionalLink>
         </Stack>
       </CardContent>
     </Card>
