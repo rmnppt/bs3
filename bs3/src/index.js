@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import Post, { loader as postLoader } from './pages/post-detail.js'
+import Post, { idLoader } from './pages/post-detail.js'
 import ErrorPage from "./pages/error-page";
 import PostForm from './pages/new-post-form.js';
 import PostList from './pages/post-list.js';
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
       {
         path: "p/:postId",
         element: <Post />,
-        loader: postLoader
+        loader: idLoader
       },
       {
         path: "new",

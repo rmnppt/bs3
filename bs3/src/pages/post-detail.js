@@ -3,17 +3,26 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
-import { getPost } from '../api/post';
 import { useLoaderData } from "react-router-dom";
 import MainActionFab from '../components/main-action-buttons';
+import { useOutletContext } from "react-router-dom";
 
-export function loader({ params }) {
-  var post = getPost(params.postId);
-  return post;
+export function idLoader({ params }) {
+  return params.postId;
 }
 
 function Post() {
-  var post = useLoaderData();
+  const [posts] = useOutletContext();
+  
+  var postId = useLoaderData();
+
+  function getPost(postId) {
+    var post = posts.find(p => p.id === postId);
+    return post;
+  }
+
+  const post = getPost(postId)
+  
   return (
     <div>
       <Paper sx={{ my: 2, mx: 2, py: 2, px: 2}}>
