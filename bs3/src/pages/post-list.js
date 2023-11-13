@@ -70,7 +70,11 @@ function SimpleSnackbar(snackbar) {
 
   const action = (
     <React.Fragment>
-      <Button color="secondary" size="small" component={Link} to={`p/${snack.postId}`}>
+      <Button 
+        color="secondary" 
+        size="small" 
+        component={Link} 
+        to={`p/${snack.postId}`}>
         VIEW
       </Button>
       <IconButton

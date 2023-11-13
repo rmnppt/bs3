@@ -60,6 +60,9 @@ export default function PostForm() {
             upVotes: 0,
             downVotes:0 
         }}
+        if (newPost.author === "") {
+            newPost.author = "anonymous"
+        }
         setPosts([...posts, newPost]);
         console.log("Post Submitted:");
         console.log(newPost);
