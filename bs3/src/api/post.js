@@ -55,10 +55,5 @@ var posts = [
     }
 ]
 
-function getPost(postId) {
-    var post = posts.find(p => p.id === postId);
-    return post;
-}
-
-export { posts, getPost }
+export { posts }
 

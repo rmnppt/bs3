@@ -13,7 +13,6 @@ export function idLoader({ params }) {
 
 function Post() {
   const [posts] = useOutletContext();
-  
   var postId = useLoaderData();
 
   function getPost(postId) {
@@ -25,7 +24,7 @@ function Post() {
   
   return (
     <div>
-      <Paper sx={{ my: 2, mx: 2, py: 2, px: 2}}>
+      <Paper sx={{ my: 2, mx: 2, py: 2, px: 2, wordBreak: "break-word" }}>
           <Stack direction="row" spacing={1}>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
             {post.author}

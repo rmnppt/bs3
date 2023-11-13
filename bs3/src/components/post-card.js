@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 
 export default function BasicCard({ post }) {
   return (
-    <Card sx={{ minWidth: 275, maxHeight: 275, my: 2, mx: 2 }}>
+    <Card sx={{ minWidth: 275, maxHeight: 275, my: 2, mx: 2, wordBreak: "break-word"}}>
       <CardContent>
         <Stack direction="row">
             <CardActions sx={{ pl: 0, ml: 0}}>

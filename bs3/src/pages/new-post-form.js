@@ -13,48 +13,62 @@ import MainActionFab from "../components/main-action-buttons";
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import TitleIcon from '@mui/icons-material/Title';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
-import { useState } from "react";
 import { useOutletContext, useNavigate } from "react-router-dom";
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+
+const validationSchema = yup.object({
+    author: yup
+        .string("Enter your name")
+        .default("Anonymous"),
+    title: yup
+      .string('Enter a title')
+      .min(8, 'Must be 8 characters long')
+      .required('Title is required'),
+    body: yup
+      .string('Enter your post')
+      .min(32, 'Must be 32 characters long')
+      .required('Body is required'),
+  });
 
 export default function PostForm() {
     const navigate = useNavigate();
-    const [formValues, setFormValues] = useState({tag: "DISCUSSION"});
     const [posts, setPosts] = useOutletContext();
 
-    function handleTextFieldChange(event) {
-        const { name, value } = event.target;
-        setFormValues({
-            ...formValues,
-            [name]: value
-        });
-    }
+    const formik = useFormik({
+        initialValues: {
+          id: null,
+          tag: 'DISCUSSION',
+          author: '',
+          title: '',
+          body: '',
+          upVotes: 0,
+          downVotes: 0 
+        },
+        validationSchema: validationSchema,
+        onSubmit: (values) => {
+          handleSubmit(values);
+        },
+      });
 
-    function handleRadioGroupChange(event) {
-        const { name, value } = event.target;
-        setFormValues({
-            ...formValues,
-            [name]: value
-        });
-    }
-
-    function handleSubmit() {
+    function handleSubmit(values) {
         let maxId = 0;
         let ids = posts.map((p) => p.id);
         maxId = Math.max(...ids);
-        const newPost = {...formValues, ...{ 
+        const newPost = {...values, ...{ 
             id: (maxId + 1).toString(),
             upVotes: 0,
             downVotes:0 
         }}
-        console.log(newPost);
         setPosts([...posts, newPost]);
         console.log("Post Submitted:");
-        navigate("/");
+        console.log(newPost);
+        navigate("/", { state: { postId: newPost.id } });
     }
     
     return (
         <Paper sx={{ m: 2, p: 2}}>
-            <form>
+            <form onSubmit={formik.handleSubmit}>
                 <FormGroup>
                     <Stack direction="column" spacing={2}>
                         <Stack direction="column">
@@ -62,14 +76,20 @@ export default function PostForm() {
                             <RadioGroup row 
                                 name="selectedTag" 
                                 label="Tag" 
-                                onChange={handleRadioGroupChange}
+                                onChange={formik.handleChange}
                                 defaultValue="DISCUSSION">
                                 <FormControlLabel name="tag" value="DISCUSSION" control={<Radio />} label="Discussion" />
                                 <FormControlLabel name="tag" value="EVENT" control={<Radio />} label="Event" />
                                 <FormControlLabel name="tag" value="SALE" control={<Radio />} label="Sale" />
                             </RadioGroup>
                         </Stack>
-                        <TextField name="author" label="Author" onChange={handleTextFieldChange}
+                        <TextField 
+                            id="author"
+                            name="author" 
+                            label="Author" 
+                            value={formik.values.author} 
+                            onChange={formik.handleChange}
+                            error={formik.touched.author && Boolean(formik.errors.author)}
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
@@ -77,7 +97,14 @@ export default function PostForm() {
                                     </InputAdornment>
                                 ),
                             }}/>
-                        <TextField name="title" label="Title" onChange={handleTextFieldChange}
+                        <TextField 
+                            id="title"
+                            name="title" 
+                            label="Title" 
+                            value={formik.values.title}
+                            onChange={formik.handleChange}
+                            error={formik.touched.title && Boolean(formik.errors.title)}
+                            helperText={formik.touched.title && formik.errors.title}
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
@@ -85,7 +112,14 @@ export default function PostForm() {
                                     </InputAdornment>
                                 ),
                             }}/>
-                        <TextField name="body" label="Body" multiline onChange={handleTextFieldChange}
+                        <TextField 
+                            id="body"
+                            name="body" 
+                            label="Body" 
+                            value={formik.values.body}
+                            multiline onChange={formik.handleChange}
+                            error={formik.touched.body && Boolean(formik.errors.body)}
+                            helperText={formik.touched.body && formik.errors.body}
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
@@ -94,7 +128,7 @@ export default function PostForm() {
                                 ),
                             }}/>
                     </Stack>
-                    <MainActionFab type="submit" clickHandler={handleSubmit}/>
+                    <MainActionFab type="submit" />
                 </FormGroup>
             </form>
         </Paper>
