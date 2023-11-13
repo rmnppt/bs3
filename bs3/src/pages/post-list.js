@@ -15,7 +15,6 @@ class PostList extends React.Component {
     }
     
     render() {
-        
         return this.props.posts.map(p => {
             return (
                 <div key={p.id}>
@@ -56,10 +55,10 @@ export default function PostListPage() {
 }
 
 
-function SimpleSnackbar(snackbar) {
+function SimpleSnackbar({snackbar}) {
   const [snack, setSnack] = useState({
-    open: snackbar.snackbar.open,
-    postId: snackbar.snackbar.postId
+    open: snackbar.open,
+    postId: snackbar.postId
   });
 
   const handleClose = (event, reason) => {
