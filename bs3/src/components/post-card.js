@@ -42,7 +42,7 @@ export default function BasicCard({ post }) {
                 {post.title}
               </Typography> 
               <Typography variant="body2">
-                {post.body}
+                {post.body.slice(0, 75) + "..."}
               </Typography>
           </CardActionArea>
         </Stack>
