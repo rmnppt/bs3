@@ -10,7 +10,12 @@ import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import { Link } from 'react-router-dom';
 
-export default function BasicCard({ post }) {
+export default function BasicCard({ post, extended = false}) {
+  
+  if (extended === false) {
+    post = {...post, body: post.body.slice(0, 75) + "..."}
+  }
+  
   return (
     <Card sx={{ minWidth: 275, maxHeight: 275, my: 2, mx: 2, wordBreak: "break-word"}}>
       <CardContent>
@@ -42,7 +47,7 @@ export default function BasicCard({ post }) {
                 {post.title}
               </Typography> 
               <Typography variant="body2">
-                {post.body.slice(0, 75) + "..."}
+                {post.body}
               </Typography>
           </CardActionArea>
         </Stack>

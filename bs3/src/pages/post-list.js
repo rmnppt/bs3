@@ -22,6 +22,7 @@ class PostList extends React.Component {
                     <BasicCard 
                         className="BasicCard"
                         post={p}
+                        extended={false}
                         ></BasicCard>
                 </div>
             )
