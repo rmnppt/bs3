@@ -1,36 +1,37 @@
 import React from "react";
 import BasicCard from "../components/post-card";
 import MainActionFab from "../components/main-action-buttons";
-import { useOutletContext } from "react-router-dom";
 import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { useLocation, Link } from 'react-router-dom';
 import { useState } from "react";
+import { useSelector } from 'react-redux'
+
 
 class PostList extends React.Component {
     constructor(posts) {
         super()
-    }
-    
-    render() {
-        
+      }
+      
+      render() {
         return this.props.posts.map(p => {
-            return (
-                <div key={p.id}>
+          return (
+            <div key={p.id}>
                     <BasicCard 
                         className="BasicCard"
                         post={p}
+                        extended={false}
                         ></BasicCard>
                 </div>
             )
-        })
-    }
-}
-
+          })
+        }
+      }
+      
 export default function PostListPage() {
-    const [posts] = useOutletContext();
+    const posts = useSelector(state => state.posts)
     const location = useLocation();
     var snackBar = {
         open: false,
@@ -55,10 +56,10 @@ export default function PostListPage() {
 }
 
 
-function SimpleSnackbar(snackbar) {
+function SimpleSnackbar({snackbar}) {
   const [snack, setSnack] = useState({
-    open: snackbar.snackbar.open,
-    postId: snackbar.snackbar.postId
+    open: snackbar.open,
+    postId: snackbar.postId
   });
 
   const handleClose = (event, reason) => {

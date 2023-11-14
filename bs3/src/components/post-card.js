@@ -9,21 +9,50 @@ import { CardActionArea, Stack } from '@mui/material';
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
+import { upVote, downVote, sortPosts } from '../app/postsSlice';
 
-export default function BasicCard({ post }) {
+function ConditionalLink({ children, condition, ...props }) {
+  return !!condition && props.to ? 
+    <Link 
+      {...props} 
+      style={{textDecoration: 'none', color: "inherit"}}
+    >
+      {children}
+    </Link> : <>{children}</>
+}
+
+
+export default function BasicCard({ post, extended = false}) {
+  const dispatch = useDispatch()
+
+  if (extended === false) {
+    post = {...post, body: post.body.slice(0, 75) + "..."}
+  }
+  
+  function handleUpVote() {
+    dispatch(upVote(post.id))
+    dispatch(sortPosts())
+  }
+
+  function handleDownVote() {
+    dispatch(downVote(post.id))
+    dispatch(sortPosts())
+  }
+  
   return (
     <Card sx={{ minWidth: 275, maxHeight: 275, my: 2, mx: 2, wordBreak: "break-word"}}>
       <CardContent>
         <Stack direction="row">
             <CardActions sx={{ pl: 0, ml: 0}}>
               <Stack direction="column">
-                <Button>
+                <Button onClick={handleUpVote}>
                   <Stack direction="column">
                     <Typography fontSize={11} textAlign={"center"}>{post.upVotes}</Typography>
                     <ArrowCircleUpIcon></ArrowCircleUpIcon>
                   </Stack>
                 </Button>
-                <Button>
+                <Button onClick={handleDownVote}>
                   <Stack direction="column">
                     <ArrowCircleDownIcon color="secondary"></ArrowCircleDownIcon>
                     <Typography color="secondary" fontSize={11} textAlign={"center"}>{post.downVotes}</Typography>
@@ -31,7 +60,8 @@ export default function BasicCard({ post }) {
                 </Button>
               </Stack>
             </CardActions>
-          <CardActionArea component={Link} to={`p/${post.id}`}>
+          <ConditionalLink condition={!extended} to={`p/${post.id}`}>
+          <CardActionArea>
               <Stack direction="row" spacing={1}>
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                 {post.author}
@@ -42,9 +72,10 @@ export default function BasicCard({ post }) {
                 {post.title}
               </Typography> 
               <Typography variant="body2">
-                {post.body.slice(0, 75) + "..."}
+                {post.body}
               </Typography>
           </CardActionArea>
+          </ConditionalLink>
         </Stack>
       </CardContent>
     </Card>

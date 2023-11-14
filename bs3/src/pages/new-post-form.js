@@ -13,28 +13,31 @@ import MainActionFab from "../components/main-action-buttons";
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import TitleIcon from '@mui/icons-material/Title';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
-import { useOutletContext, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux'
+import { addPost } from '../app/postsSlice'
 
 const validationSchema = yup.object({
     author: yup
         .string("Enter your name")
         .default("Anonymous"),
     title: yup
-      .string('Enter a title')
-      .min(8, 'Must be 8 characters long')
-      .max(50, "Must be shorter than 32 characters long")
-      .required('Title is required'),
+        .string('Enter a title')
+        .min(8, 'Must be 8 characters long')
+        .max(50, "Must be shorter than 32 characters long")
+        .required('Title is required'),
     body: yup
-      .string('Enter your post')
-      .min(32, 'Must be 32 characters long')
-      .required('Body is required'),
+        .string('Enter your post')
+        .min(32, 'Must be 32 characters long')
+        .required('Body is required'),
   });
 
 export default function PostForm() {
     const navigate = useNavigate();
-    const [posts, setPosts] = useOutletContext();
+    const posts = useSelector(state => state.posts)
+    const dispatch = useDispatch()
 
     const formik = useFormik({
         initialValues: {
@@ -53,6 +56,7 @@ export default function PostForm() {
       });
 
     function handleSubmit(values) {
+        // TODO: some of this logic can live in in the reducer under the prepare callback 
         let maxId = 0;
         let ids = posts.map((p) => p.id);
         maxId = Math.max(...ids);
@@ -64,7 +68,7 @@ export default function PostForm() {
         if (newPost.author === "") {
             newPost.author = "anonymous"
         }
-        setPosts([...posts, newPost]);
+        dispatch(addPost(newPost));
         console.log("Post Submitted:");
         console.log(newPost);
         navigate("/", { state: { postId: newPost.id } });
