@@ -9,6 +9,8 @@ import { CardActionArea, Stack } from '@mui/material';
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
+import { upVote, downVote } from '../app/postsSlice';
 
 function ConditionalLink({ children, condition, ...props }) {
   return !!condition && props.to ? 
@@ -22,17 +24,18 @@ function ConditionalLink({ children, condition, ...props }) {
 
 
 export default function BasicCard({ post, extended = false}) {
-  
+  const dispatch = useDispatch()
+
   if (extended === false) {
     post = {...post, body: post.body.slice(0, 75) + "..."}
   }
   
   function handleUpVote() {
-    post.upVotes++
+    dispatch(upVote(post.id))
   }
 
   function handleDownVote() {
-    post.downVotes++
+    dispatch(downVote(post.id))
   }
   
   return (

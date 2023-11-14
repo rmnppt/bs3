@@ -56,6 +56,7 @@ export default function PostForm() {
       });
 
     function handleSubmit(values) {
+        // TODO: some of this logic can live in in the reducer under the prepare callback 
         let maxId = 0;
         let ids = posts.map((p) => p.id);
         maxId = Math.max(...ids);
