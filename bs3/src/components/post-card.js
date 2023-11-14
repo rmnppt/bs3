@@ -10,7 +10,7 @@ import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
-import { upVote, downVote } from '../app/postsSlice';
+import { upVote, downVote, sortPosts } from '../app/postsSlice';
 
 function ConditionalLink({ children, condition, ...props }) {
   return !!condition && props.to ? 
@@ -32,10 +32,12 @@ export default function BasicCard({ post, extended = false}) {
   
   function handleUpVote() {
     dispatch(upVote(post.id))
+    dispatch(sortPosts())
   }
 
   function handleDownVote() {
     dispatch(downVote(post.id))
+    dispatch(sortPosts())
   }
   
   return (

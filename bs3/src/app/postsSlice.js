@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { posts } from '../api/post'
 
+function rankingScore(upVotes, downVotes) {
+    const score = (upVotes / downVotes) * upVotes
+    return score
+}
+
 export const postsSlice = createSlice({
   
     name: 'posts',
@@ -21,6 +26,10 @@ export const postsSlice = createSlice({
         downVote: (state, action) => {
             const postIndex = state.findIndex((p => p.id === action.payload));
             state[postIndex].downVotes += 1
+        },
+
+        sortPosts: (state) => {
+            state.sort((a, b) => rankingScore(b.upVotes, b.downVotes) - rankingScore(a.upVotes, a.downVotes) )
         }
   
     }
@@ -28,6 +37,6 @@ export const postsSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { addPost, upVote, downVote } = postsSlice.actions
+export const { addPost, upVote, downVote, sortPosts } = postsSlice.actions
 
 export default postsSlice.reducer
