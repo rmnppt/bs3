@@ -1,17 +1,18 @@
 import './App.css';
-import { posts as postList } from './api/post';
-import { useState } from 'react';
 import BottomAppBar from './components/bottom-app-bar';
 import { Outlet } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './app/store'
 
 function App() {
-  const [posts, setPosts] = useState(postList);
 
   return (
-    <div className="App">
-      <Outlet context={[posts, setPosts]}/>
-      <BottomAppBar></BottomAppBar>
-    </div>
+    <Provider store={store}>
+      <div className="App">
+        <Outlet />
+        <BottomAppBar></BottomAppBar>
+      </div>
+    </Provider>
   );
 }
 

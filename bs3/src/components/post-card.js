@@ -11,16 +11,28 @@ import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import { Link } from 'react-router-dom';
 
 function ConditionalLink({ children, condition, ...props }) {
-  return !!condition && props.to ? <Link {...props} 
-                                    style={{textDecoration: 'none', color: "inherit"}}>
-                                      {children}
-                                    </Link> : <>{children}</>
+  return !!condition && props.to ? 
+    <Link 
+      {...props} 
+      style={{textDecoration: 'none', color: "inherit"}}
+    >
+      {children}
+    </Link> : <>{children}</>
 }
+
 
 export default function BasicCard({ post, extended = false}) {
   
   if (extended === false) {
     post = {...post, body: post.body.slice(0, 75) + "..."}
+  }
+  
+  function handleUpVote() {
+    post.upVotes++
+  }
+
+  function handleDownVote() {
+    post.downVotes++
   }
   
   return (
@@ -29,13 +41,13 @@ export default function BasicCard({ post, extended = false}) {
         <Stack direction="row">
             <CardActions sx={{ pl: 0, ml: 0}}>
               <Stack direction="column">
-                <Button>
+                <Button onClick={handleUpVote}>
                   <Stack direction="column">
                     <Typography fontSize={11} textAlign={"center"}>{post.upVotes}</Typography>
                     <ArrowCircleUpIcon></ArrowCircleUpIcon>
                   </Stack>
                 </Button>
-                <Button>
+                <Button onClick={handleDownVote}>
                   <Stack direction="column">
                     <ArrowCircleDownIcon color="secondary"></ArrowCircleDownIcon>
                     <Typography color="secondary" fontSize={11} textAlign={"center"}>{post.downVotes}</Typography>
