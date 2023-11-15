@@ -34,18 +34,38 @@ export const appSlice = createSlice({
     
         upVote: (state, action) => {
             const postIndex = state.posts.findIndex((p => p.id === action.payload));
-            state.posts[postIndex].upVotes += 1
-            state.posts[postIndex].upVoted.push(state.user)
+
+            let downVoted = state.posts[postIndex].downVoted
+            if ( downVoted.includes(state.user) ) {
+                downVoted = downVoted.filter((id) => id !== state.user)
+                state.posts[postIndex].downVoted = downVoted
+            }
+            
+            let upVoted = state.posts[postIndex].upVoted
+            if ( !upVoted.includes(state.user) ) {
+                upVoted.push(state.user)
+                state.posts[postIndex].upVoted = upVoted
+            }
         },
     
         downVote: (state, action) => {
             const postIndex = state.posts.findIndex((p => p.id === action.payload));
-            state.posts[postIndex].downVotes += 1
-            state.posts[postIndex].downVoted.push(state.user)
+            
+            let upVoted = state.posts[postIndex].upVoted
+            if ( upVoted.includes(state.user) ) {
+                upVoted = upVoted.filter((id) => id !== state.user)
+                state.posts[postIndex].upVoted = upVoted
+            }
+            
+            let downVoted = state.posts[postIndex].downVoted
+            if ( !downVoted.includes(state.user) ) {
+                downVoted.push(state.user)
+                state.posts[postIndex].downVoted = downVoted
+            }
         },
 
         sortPosts: (state) => {
-            state.posts.sort((a, b) => rankingScore(b.upVotes, b.downVotes) - rankingScore(a.upVotes, a.downVotes) )
+            state.posts.sort((a, b) => rankingScore(b.upVoted.length, b.downVoted.length) - rankingScore(a.upVoted.length, a.downVoted.length) )
         }
   
     }
