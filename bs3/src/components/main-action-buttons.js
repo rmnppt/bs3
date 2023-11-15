@@ -17,21 +17,21 @@ const StyledFab = styled(Fab)({
 export default function MainActionFab({ type }) {
     switch(type) {
         
-        case type = "new":
+        case "new":
             return (
                 <StyledFab color="secondary" aria-label="add" component={ Link } to={"/new"}>
                   <AddIcon />
                 </StyledFab>
             )
 
-        case type = "submit":
+        case "submit":
             return (
                 <StyledFab color="secondary" aria-label="send" type="submit">
                   <SendIcon />
                 </StyledFab>
             )
 
-        case type = "back":
+        case "back":
             return (
                 <StyledFab color="secondary" aria-label="back" component={ Link } to={"/"}>
                   <ArrowBackIcon />
