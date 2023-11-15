@@ -10,6 +10,8 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Slide from '@mui/material/Slide';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux'
+import { Typography } from '@mui/material';
 
 
 function HideOnScroll(props) {
@@ -18,19 +20,22 @@ function HideOnScroll(props) {
     // will default to window.
     // This is only being set here because the demo is in an iframe.
     const trigger = useScrollTrigger();
-  
+    
     return (
       <Slide appear={false} direction="up" in={!trigger}>
         {children}
       </Slide>
     );
   }
-
-HideOnScroll.propTypes = {
+  
+  HideOnScroll.propTypes = {
     children: PropTypes.element.isRequired,
   };
+  
+  export default function BottomAppBar() {
 
-export default function BottomAppBar() {
+    const user = useSelector(state => state.app.user)
+    
     return (
       <React.Fragment>
         <CssBaseline />
@@ -40,9 +45,8 @@ export default function BottomAppBar() {
                         <IconButton color="inherit" aria-label="open drawer">
                           <MenuIcon />
                         </IconButton>
-                        {/* <StyledFab color="secondary" aria-label="add" component={ Link } to={"new"}>
-                          <AddIcon />
-                        </StyledFab> */}
+                        <Box sx={{ flexGrow: 1 }} />
+                        <Typography variant="caption" sx={{ marginBottom: 0, marginTop: 3 }}>User ID - {user}</Typography>
                         <Box sx={{ flexGrow: 1 }} />
                         <IconButton color="inherit">
                           <SearchIcon />
@@ -55,4 +59,5 @@ export default function BottomAppBar() {
             </HideOnScroll>
       </React.Fragment>
     );
+
   }

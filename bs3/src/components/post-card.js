@@ -9,8 +9,9 @@ import { CardActionArea, Stack } from '@mui/material';
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux'
-import { upVote, downVote, sortPosts } from '../app/postsSlice';
+import { useSelector, useDispatch } from 'react-redux'
+import { upVote, downVote, sortPosts } from '../app/appSlice';
+import { useState } from 'react'
 
 function ConditionalLink({ children, condition, ...props }) {
   return !!condition && props.to ? 
@@ -25,6 +26,27 @@ function ConditionalLink({ children, condition, ...props }) {
 
 export default function BasicCard({ post, extended = false}) {
   const dispatch = useDispatch()
+  
+  const userId = useSelector(state => state.app.user)
+  
+  const [thisPost, setThisPost] = useState({
+    userUpVoted: post.upVoted.includes(userId),
+    userDownVoted: post.downVoted.includes(userId)
+  })
+
+  function setUpVoted() {
+    setThisPost({
+      userUpVoted: true,
+      userDownVoted: false
+    })
+  }
+
+  function setDownVoted() {
+    setThisPost({
+      userUpVoted: false,
+      userDownVoted: true
+    })
+  }
 
   if (extended === false) {
     post = {...post, body: post.body.slice(0, 75) + "..."}
@@ -33,11 +55,13 @@ export default function BasicCard({ post, extended = false}) {
   function handleUpVote() {
     dispatch(upVote(post.id))
     dispatch(sortPosts())
+    setUpVoted()
   }
 
   function handleDownVote() {
     dispatch(downVote(post.id))
     dispatch(sortPosts())
+    setDownVoted()
   }
   
   return (
@@ -48,14 +72,14 @@ export default function BasicCard({ post, extended = false}) {
               <Stack direction="column">
                 <Button onClick={handleUpVote}>
                   <Stack direction="column">
-                    <Typography fontSize={11} textAlign={"center"}>{post.upVotes}</Typography>
-                    <ArrowCircleUpIcon></ArrowCircleUpIcon>
+                    <Typography fontSize={11} textAlign={"center"}>{post.upVoted.length}</Typography>
+                    <ArrowCircleUpIcon color={thisPost.userUpVoted? "primary" : "disabled"}></ArrowCircleUpIcon>
                   </Stack>
                 </Button>
                 <Button onClick={handleDownVote}>
                   <Stack direction="column">
-                    <ArrowCircleDownIcon color="secondary"></ArrowCircleDownIcon>
-                    <Typography color="secondary" fontSize={11} textAlign={"center"}>{post.downVotes}</Typography>
+                  <ArrowCircleDownIcon color={thisPost.userDownVoted? "secondary" : "disabled"}></ArrowCircleDownIcon>
+                    <Typography color="secondary" fontSize={11} textAlign={"center"}>{post.downVoted.length}</Typography>
                   </Stack>
                 </Button>
               </Stack>

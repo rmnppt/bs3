@@ -10,7 +10,7 @@ export function idLoader({ params }) {
 
 function Post() {
   var postId = useLoaderData();
-  const post = useSelector(state => state.posts.find(post => post.id === postId))
+  const post = useSelector(state => state.app.posts.find(post => post.id === postId))
 
   return (
     <div>
