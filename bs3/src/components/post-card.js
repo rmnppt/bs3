@@ -10,7 +10,7 @@ import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
-import { upVote, downVote, sortPosts } from '../app/postsSlice';
+import { upVote, downVote, sortPosts } from '../app/appSlice';
 
 function ConditionalLink({ children, condition, ...props }) {
   return !!condition && props.to ? 
@@ -54,7 +54,7 @@ export default function BasicCard({ post, extended = false}) {
                 </Button>
                 <Button onClick={handleDownVote}>
                   <Stack direction="column">
-                    <ArrowCircleDownIcon color="secondary"></ArrowCircleDownIcon>
+                  <ArrowCircleDownIcon color="secondary"></ArrowCircleDownIcon>
                     <Typography color="secondary" fontSize={11} textAlign={"center"}>{post.downVotes}</Typography>
                   </Stack>
                 </Button>

@@ -31,7 +31,7 @@ class PostList extends React.Component {
       }
       
 export default function PostListPage() {
-    const posts = useSelector(state => state.posts)
+    const posts = useSelector(state => state.app.posts)
     const location = useLocation();
     var snackBar = {
         open: false,

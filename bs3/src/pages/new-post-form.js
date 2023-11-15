@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux'
-import { addPost } from '../app/postsSlice'
+import { addPost } from '../app/appSlice'
 
 const validationSchema = yup.object({
     author: yup
@@ -36,7 +36,7 @@ const validationSchema = yup.object({
 
 export default function PostForm() {
     const navigate = useNavigate();
-    const posts = useSelector(state => state.posts)
+    const posts = useSelector(state => state.app.posts)
     const dispatch = useDispatch()
 
     const formik = useFormik({

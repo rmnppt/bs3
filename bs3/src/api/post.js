@@ -6,7 +6,9 @@ var posts = [
         tag: "EVENT",
         body: "Lets go have a party at the bridge, my mate is bringing some beers.",
         upVotes: 23,
-        downVotes: 12
+        downVotes: 12,
+        upVoted: [],
+        downVoted: []
     }, 
     {
         id: "2",
@@ -15,7 +17,9 @@ var posts = [
         tag: "SALE",
         body: "Its 13 years old and needs a new home. Hates crackers.",
         upVotes: 17,
-        downVotes: 8
+        downVotes: 8,
+        upVoted: [],
+        downVoted: []
     }, 
     {
         id: "3",
@@ -24,7 +28,9 @@ var posts = [
         tag: "DISCUSSION",
         body: "I think we should discuss the narrowing of gathorne road entrance. I have mixed feelings",
         upVotes: 15,
-        downVotes: 2
+        downVotes: 2,
+        upVoted: [],
+        downVoted: []
     },
     {
         id: "4",
@@ -33,7 +39,9 @@ var posts = [
         tag: "DISCUSSION",
         body: "Is anyone still able to dry their clothes in the sun or does anyone know of a decent laundrette around here?",
         upVotes: 0,
-        downVotes: 38
+        downVotes: 38,
+        upVoted: [],
+        downVoted: []
     },
     {
         id: "5",
@@ -42,7 +50,9 @@ var posts = [
         tag: "DISCUSSION",
         body: "Who is responsible for all of these stickers everywhere, can we please have a moratorium on stickers around the place, please.",
         upVotes: 12,
-        downVotes: 12
+        downVotes: 12,
+        upVoted: [],
+        downVoted: []
     },
     {
         id: "6",
@@ -51,7 +61,9 @@ var posts = [
         tag: "DISCUSSION",
         body: "I didn't watch it lol, can anyone fill me in?",
         upVotes: 1,
-        downVotes: 5
+        downVotes: 5,
+        upVoted: [],
+        downVoted: []
     }
 ]
 
