@@ -14,6 +14,7 @@ const StyledFab = styled(Fab)({
     margin: '0 auto',
 });
 
+
 export default function MainActionFab({ type }) {
     switch(type) {
         
@@ -37,8 +38,8 @@ export default function MainActionFab({ type }) {
                   <ArrowBackIcon />
                 </StyledFab>
             )
-        default:
 
+        default:
 
     }
 }

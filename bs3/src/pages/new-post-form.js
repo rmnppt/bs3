@@ -9,7 +9,6 @@ import {
     InputAdornment,
     FormGroup
 } from "@mui/material";
-import MainActionFab from "../components/main-action-buttons";
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import TitleIcon from '@mui/icons-material/Title';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
@@ -18,6 +17,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux'
 import { addPost } from '../app/appSlice'
+import MainActionFab from "../components/main-action-buttons";
 
 const validationSchema = yup.object({
     author: yup
@@ -136,7 +136,7 @@ export default function PostForm() {
                                 ),
                             }}/>
                     </Stack>
-                    <MainActionFab type="submit" />
+                    <MainActionFab type="submit"></MainActionFab>
                 </FormGroup>
             </form>
         </Paper>

@@ -7,12 +7,12 @@ import store from './app/store'
 function App() {
 
   return (
-    <Provider store={store}>
-      <div className="App">
-        <Outlet />
-        <BottomAppBar></BottomAppBar>
-      </div>
-    </Provider>
+      <Provider store={store}>
+        <div className="App">
+          <Outlet />
+          <BottomAppBar></BottomAppBar>
+        </div>
+      </Provider>
   );
 }
 

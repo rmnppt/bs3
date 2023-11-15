@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useLoaderData } from "react-router-dom";
-import MainActionFab from '../components/main-action-buttons';
 import BasicCard from '../components/post-card';
 import { useSelector } from 'react-redux'
+import MainActionFab from '../components/main-action-buttons';
 
 export function idLoader({ params }) {
   return params.postId;
@@ -15,9 +15,8 @@ function Post() {
   return (
     <div>
       <BasicCard post={post} extended={true}></BasicCard>
-      <MainActionFab type="back"/>
+        <MainActionFab type="back"></MainActionFab>
     </div>
-
   )
 }
 

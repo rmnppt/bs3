@@ -1,6 +1,5 @@
 import React from "react";
 import BasicCard from "../components/post-card";
-import MainActionFab from "../components/main-action-buttons";
 import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
@@ -8,6 +7,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useLocation, Link } from 'react-router-dom';
 import { useState } from "react";
 import { useSelector } from 'react-redux'
+import MainActionFab from "../components/main-action-buttons";
 
 
 class PostList extends React.Component {
@@ -48,7 +48,7 @@ export default function PostListPage() {
 
     return (
         <div>
-            <MainActionFab type="new" />
+            <MainActionFab type="new"></MainActionFab>
             <PostList posts={posts}/>
             <SimpleSnackbar snackbar={snackBar} />
         </div>
