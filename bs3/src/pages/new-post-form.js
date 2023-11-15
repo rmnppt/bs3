@@ -46,8 +46,8 @@ export default function PostForm() {
           author: '',
           title: '',
           body: '',
-          upVotes: 0,
-          downVotes: 0 
+          upVoted: [],
+          downVoted: [] 
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
