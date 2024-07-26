@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-import appReducer from './appSlice'
+import firestoreReducer, { fetchPosts } from '../api/firestoreSlice'
 
-export default configureStore({
+export const store = configureStore({
   reducer: {
-    app: appReducer
+    app: firestoreReducer
   }
 })
+
+store.dispatch(fetchPosts())

@@ -2,7 +2,7 @@ import './App.css';
 import BottomAppBar from './components/bottom-app-bar';
 import { Outlet } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from './app/store'
+import { store } from './app/store'
 
 function App() {
 
