@@ -37,7 +37,7 @@ jobs:
       # Putting this here to test the deploy process, REMOVE it before merging.
       - name: Deploy to Firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
-        working-directory: ./bs3
+        entryPoint: ./bs3
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BS3APP_DFB63 }}
