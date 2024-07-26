@@ -1,11 +1,16 @@
 name: Build
-'on': pull_request
+on: 
+  pull_request:
+    branches:
+      - master
+    types: [opened, synchronize, reopened]
+
 jobs:
   Build:
-    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
     steps:
-      - name Checkout repository
+      - name: Checkout repository
       - uses: actions/checkout@v3
       
       - name: Set up Node.js
