@@ -7,10 +7,21 @@ name: Build & Deploy to Firebase Hosting
     branches:
       - master
 jobs:
-  build_and_deploy:
+  Build:
     runs-on: ubuntu-latest
     steps:
+      - name Checkout repository
       - uses: actions/checkout@v3
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      - name: Install dependencies
+        run: yarn install
+      
+      - name: Build
       - run: yarn build
         working-directory: ./bs3
         env:
@@ -21,6 +32,8 @@ jobs:
           REACT_APP_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}
           REACT_APP_FIREBASE_APP_ID: ${{ secrets.REACT_APP_FIREBASE_APP_ID }}
           REACT_APP_FIREBASE_MEASUREMENT_ID: ${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}
+      
+      - name: Deploy to Firebase
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
