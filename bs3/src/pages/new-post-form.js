@@ -9,7 +9,6 @@ import {
     InputAdornment,
     FormGroup
 } from "@mui/material";
-import MainActionFab from "../components/main-action-buttons";
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import TitleIcon from '@mui/icons-material/Title';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
@@ -17,7 +16,8 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux'
-import { addPost } from '../app/appSlice'
+import { insertPost } from '../api/firestoreSlice'
+import MainActionFab from "../components/main-action-buttons";
 
 const validationSchema = yup.object({
     author: yup
@@ -46,8 +46,8 @@ export default function PostForm() {
           author: '',
           title: '',
           body: '',
-          upVotes: 0,
-          downVotes: 0 
+          upVoted: [],
+          downVoted: [] 
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
@@ -68,7 +68,7 @@ export default function PostForm() {
         if (newPost.author === "") {
             newPost.author = "anonymous"
         }
-        dispatch(addPost(newPost));
+        dispatch(insertPost(newPost));
         console.log("Post Submitted:");
         console.log(newPost);
         navigate("/", { state: { postId: newPost.id } });
@@ -136,7 +136,7 @@ export default function PostForm() {
                                 ),
                             }}/>
                     </Stack>
-                    <MainActionFab type="submit" />
+                    <MainActionFab type="submit"></MainActionFab>
                 </FormGroup>
             </form>
         </Paper>

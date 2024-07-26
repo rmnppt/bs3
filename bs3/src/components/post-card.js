@@ -10,7 +10,7 @@ import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
-import { upVote, downVote, sortPosts } from '../app/appSlice';
+import { upVotePost, downVotePost, sortPosts } from '../api/firestoreSlice';
 import { useState } from 'react'
 
 function ConditionalLink({ children, condition, ...props }) {
@@ -53,14 +53,14 @@ export default function BasicCard({ post, extended = false}) {
   }
   
   function handleUpVote() {
-    dispatch(upVote(post.id))
+    dispatch(upVotePost({ id: post.id, user: userId}))
     dispatch(sortPosts())
     setUpVoted()
   }
 
   function handleDownVote() {
-    dispatch(downVote(post.id))
-    dispatch(sortPosts())
+    dispatch(downVotePost({ id: post.id, user: userId}))
+    dispatch(sortPosts()) 
     setDownVoted()
   }
   
