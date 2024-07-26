@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux'
-import { addPost } from '../app/appSlice'
+import { insertPost } from '../api/firestoreSlice'
 import MainActionFab from "../components/main-action-buttons";
 
 const validationSchema = yup.object({
@@ -68,7 +68,7 @@ export default function PostForm() {
         if (newPost.author === "") {
             newPost.author = "anonymous"
         }
-        dispatch(addPost(newPost));
+        dispatch(insertPost(newPost));
         console.log("Post Submitted:");
         console.log(newPost);
         navigate("/", { state: { postId: newPost.id } });

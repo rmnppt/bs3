@@ -38,7 +38,6 @@ export const upVotePost = createAsyncThunk(
     });
 
     const updatedPost = (await getDoc(post)).data()
-    console.log(updatedPost)
     return updatedPost 
   }
 );
@@ -55,7 +54,6 @@ export const downVotePost = createAsyncThunk(
     });
 
     const updatedPost = (await getDoc(post)).data()
-    console.log(updatedPost)
     return updatedPost
   }
 );
@@ -72,9 +70,7 @@ export const updatePost = createAsyncThunk(
   'firestore/updatePost',
   async ({ id, data }) => {
     const docRef = doc(db, 'posts', id);
-    console.log(docRef)
     const serialised_data = JSON.parse(JSON.stringify(data))
-    console.log(serialised_data)
     await updateDoc(docRef, serialised_data);
     return { id, ...data };
   }
@@ -101,9 +97,6 @@ const firestoreSlice = createSlice({
   },
   
   reducers: {
-    addPost: (state, action) => {
-        state.posts.push(action.payload)
-    },
     sortPosts: (state) => {
         state.posts.sort((a, b) => rankingScore(b.upVoted.length, b.downVoted.length) - rankingScore(a.upVoted.length, a.downVoted.length) )
     }
