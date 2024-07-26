@@ -34,8 +34,8 @@ jobs:
       
       - name: Deploy to Firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
-        entryPoint: ./bs3
         with:
+          entryPoint: ./bs3
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BS3APP_DFB63 }}
           channelId: live
