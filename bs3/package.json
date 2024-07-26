@@ -29,7 +29,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start:dev": "env-cmd -f .env.development yarn start",
+    "start:dev": "env-cmd -f .env.development.local yarn start",
     "start:prod": "env-cmd -f .env.production yarn start",
     "build": "react-scripts build",
     "build:dev": "env-cmd -f .env.development react-scripts build",
