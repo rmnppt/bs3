@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
       
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -22,7 +22,7 @@ jobs:
         run: yarn install
       
       - name: Build
-      - run: yarn build
+        run: yarn build
         working-directory: ./bs3
         env:
           REACT_APP_FIREBASE_API_KEY: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}
