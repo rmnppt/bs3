@@ -18,7 +18,6 @@ jobs:
         with:
           node-version: '20.x'
 
-
       - name: Install dependencies
         run: yarn install
         working-directory: ./bs3
@@ -38,6 +37,7 @@ jobs:
       # Putting this here to test the deploy process, REMOVE it before merging.
       - name: Deploy to Firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
+        working-directory: ./bs3
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BS3APP_DFB63 }}
