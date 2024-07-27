@@ -26,7 +26,7 @@ const validationSchema = yup.object({
     title: yup
         .string('Enter a title')
         .min(8, 'Must be 8 characters long')
-        .max(50, "Must be shorter than 32 characters long")
+        .max(32, "Must be shorter than 32 characters long")
         .required('Title is required'),
     body: yup
         .string('Enter your post')
