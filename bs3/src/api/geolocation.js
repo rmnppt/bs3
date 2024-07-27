@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
 
+const options = {
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 60,
+}
+
 const useGeoLocation = () => {
   const [location, setLocation] = useState({
     loaded: false,
@@ -27,21 +33,23 @@ const useGeoLocation = () => {
   };
 
   useEffect(() => {
-    if (!("geolocation" in navigator)) {
-      onError({
-        code: 0,
-        message: "Geolocation not supported",
+    if (navigator.geolocation) {
+      navigator.permissions.query({ name: "geolocation" }).then((result) => {
+        if (result.state === "granted") {
+          navigator.geolocation.getCurrentPosition(success, error, options);
+        } else if (result.state === "prompt") {
+          navigator.geolocation.getCurrentPosition(success, error, options);
+        } else {
+          console.log("Geolocation permission denied");
+        }
       });
+    } else {
+      console.log("Geolocation is not supported by this browser.");
     }
-
-    navigator.geolocation.getCurrentPosition(onSuccess, onError, {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 60,
-    });
   }, []);
 
   return location;
+
 };
 
 
