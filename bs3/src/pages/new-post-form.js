@@ -61,9 +61,7 @@ export default function PostForm() {
         let ids = posts.map((p) => p.id);
         maxId = Math.max(...ids);
         const newPost = {...values, ...{ 
-            id: (maxId + 1).toString(),
-            upVotes: 0,
-            downVotes:0 
+            id: (maxId + 1).toString()
         }}
         if (newPost.author === "") {
             newPost.author = "anonymous"
