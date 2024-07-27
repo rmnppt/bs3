@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import Post, { idLoader } from './pages/post-detail.js'
 import ErrorPage from "./pages/error-page";
 import PostForm from './pages/new-post-form.js';
@@ -11,11 +10,14 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import AppWrapper from './AppWrapper.js';
+import { Provider } from 'react-redux';
+import { store } from './app/store';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <AppWrapper />,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -37,7 +39,9 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );
 

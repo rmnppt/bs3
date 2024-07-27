@@ -10,7 +10,7 @@ import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
-import { upVotePost, downVotePost, sortPosts } from '../api/firestoreSlice';
+import { upVotePost, downVotePost, sortPosts } from '../app/firestoreSlice';
 import { useState } from 'react'
 
 function ConditionalLink({ children, condition, ...props }) {

@@ -2,27 +2,55 @@ import { useState, useEffect } from "react";
 
 const options = {
     enableHighAccuracy: true,
-    timeout: 5000,
-    maximumAge: 60,
+    timeout: 10000,
+    maximumAge: 0,
 }
 
-const useGeoLocation = () => {
+const useGeoLocationCheck = () => {
   const [location, setLocation] = useState({
     loaded: false,
     coordinates: { lat: null, lng: null },
+    local: false,
   });
 
+  const isLocal = (location) => {
+  
+      const LNG_MIN = -2.6485976706726055;
+      const LNG_MAX = -2.5743893376966813;
+      const LAT_MIN = 51.42082059829641;
+      const LAT_MAX = 51.45543490194706;
+
+      const lat = location.coords.latitude;
+      const lng = location.coords.longitude
+
+      if (lat && lng) {
+          if ( lat >= LAT_MIN && lat <= LAT_MAX && lng >= LNG_MIN && lng <= LNG_MAX ) {
+            console.log("Local location detected");
+            return true;
+          } else {
+            console.log("Non-local location detected");
+            return false;
+          } 
+      } else {
+        console.log("Location is not available");
+        return false;
+      }
+  }
+
   const onSuccess = (location) => {
+    console.log("Location obtained: ", location);
     setLocation({
       loaded: true,
       coordinates: {
         lat: location.coords.latitude,
         lng: location.coords.longitude,
       },
+      local: isLocal(location),
     });
   };
 
   const onError = (error) => {
+    console.log("Error while obtaining geolocation: ", error);
     setLocation({
       loaded: true,
       error: {
@@ -36,9 +64,9 @@ const useGeoLocation = () => {
     if (navigator.geolocation) {
       navigator.permissions.query({ name: "geolocation" }).then((result) => {
         if (result.state === "granted") {
-          navigator.geolocation.getCurrentPosition(success, error, options);
+          navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
         } else if (result.state === "prompt") {
-          navigator.geolocation.getCurrentPosition(success, error, options);
+          navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
         } else {
           console.log("Geolocation permission denied");
         }
@@ -52,25 +80,4 @@ const useGeoLocation = () => {
 
 };
 
-
-const isUserLocal = () => {
-
-    const location = useGeoLocation();
-
-    const LAT_MIN = -2.6485976706726055;
-    const LAT_MAX = -2.5743893376966813;
-    const LNG_MIN = 51.42082059829641;
-    const LNG_MAX = 51.45543490194706;
-
-    if (location.loaded && location.coordinates.lat && location.coordinates.lng) {
-        const { lat, lng } = location.coordinates;
-        if ( lat >= LAT_MIN && lat <= LAT_MAX && lng >= LNG_MIN && lng <= LNG_MAX ) {
-            return true;
-        }
-    }
-
-    return false;
-
-}
-
-export default isUserLocal;
+export default useGeoLocationCheck;

@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
-import firestoreReducer, { fetchPosts } from '../api/firestoreSlice'
+import firestoreReducer, { fetchPosts } from './firestoreSlice'
+import geolocatorSlice from './geolocatorSlice'
 
 export const store = configureStore({
   reducer: {
-    app: firestoreReducer
+    app: firestoreReducer,
+    geolocation: geolocatorSlice
   }
 })
 
