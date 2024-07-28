@@ -23,6 +23,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from 'react-redux'
 import { insertPost } from '../app/firestoreSlice'
 import MainActionFab from "../components/main-action-buttons";
+import { nanoid } from "nanoid";
 
 const validationSchema = yup.object({
     author: yup
@@ -41,7 +42,6 @@ const validationSchema = yup.object({
 
 export default function PostForm() {
     const navigate = useNavigate();
-    const posts = useSelector(state => state.app.posts)
     const dispatch = useDispatch()
     const location = useSelector(state => state.geolocation.location)
     const [open, setOpen] = useState(!location.local);
@@ -63,12 +63,9 @@ export default function PostForm() {
       });
 
     function handleSubmit(values) {
-        // TODO: some of this logic can live in in the reducer under the prepare callback 
-        let maxId = 0;
-        let ids = posts.map((p) => p.id);
-        maxId = Math.max(...ids);
+
         const newPost = {...values, ...{ 
-            id: (maxId + 1).toString()
+            id: nanoid(10)
         }}
         if (newPost.author === "") {
             newPost.author = "anonymous"
@@ -164,7 +161,10 @@ export default function PostForm() {
                         Oops
                     </Typography>
                     <Typography id="modal-description" sx={{ mt: 2 }}>
-                        You do not seem to be in the local area. You cannot submit a post.
+                        You do not seem to be in the local area. You are in guest mode. 
+                        You cannot submit a post.
+                        Try refreshing the page and allowing access to your devices location. 
+                        I will check your location once. You are free to remain anonymous and your location data will never be stored.
                     </Typography>
                     <Button onClick={handleClose} sx={{ mt: 2 }}>
                         OK

@@ -5,14 +5,13 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
-import MoreIcon from '@mui/icons-material/MoreVert';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Slide from '@mui/material/Slide';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux'
 import { Typography } from '@mui/material';
-
+import CheckIcon from '@mui/icons-material/Check';
+import CrossIcon from '@mui/icons-material/Close';
 
 function HideOnScroll(props) {
     const { children } = props;
@@ -35,6 +34,7 @@ function HideOnScroll(props) {
   export default function BottomAppBar() {
 
     const user = useSelector(state => state.app.user)
+    const location = useSelector(state => state.geolocation.location)
     
     return (
       <React.Fragment>
@@ -46,14 +46,23 @@ function HideOnScroll(props) {
                           <MenuIcon />
                         </IconButton>
                         <Box sx={{ flexGrow: 1 }} />
-                        <Typography variant="caption" sx={{ marginBottom: 0, marginTop: 3 }}>User ID - {user}</Typography>
-                        <Box sx={{ flexGrow: 1 }} />
-                        <IconButton color="inherit">
-                          <SearchIcon />
-                        </IconButton>
-                        <IconButton color="inherit">
-                          <MoreIcon />
-                        </IconButton>
+                        <Box>
+                          <Typography variant="caption" sx={{ marginBottom: 0, marginTop: 2 }}>User ID - {user}</Typography>
+                          <br />
+                          { location.local ? (
+                            <Box sx = {{ display: "flex", justifyContent: "flex-end" }}>
+                              <Typography textAlign="right" variant="caption" sx={{ marginBottom: 0, marginTop: 0 }}>Local mode  
+                                <CheckIcon sx = {{ fontSize: 'inherit', lineHeight: 'inherit', verticalAlign: 'middle'  }}/>
+                              </Typography>
+                            </Box >
+                          ) : (
+                            <Box sx = {{ display: "flex", justifyContent: "flex-end" }}>
+                              <Typography textAlign="right" variant="caption" sx={{ marginBottom: 0, marginTop: 0 }}>Guest mode  
+                                <CrossIcon sx = {{ fontSize: 'inherit', lineHeight: 'inherit', verticalAlign: 'middle'  }}/>
+                              </Typography>
+                            </Box>
+                          )} 
+                        </Box>
                     </Toolbar>
                 </AppBar>
             </HideOnScroll>
