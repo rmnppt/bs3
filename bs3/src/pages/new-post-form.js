@@ -162,8 +162,14 @@ export default function PostForm() {
                     </Typography>
                     <Typography id="modal-description" sx={{ mt: 2 }}>
                         You do not seem to be in the local area. You are in guest mode. 
+                        <br />
+                        <br />
                         You cannot submit a post.
+                        <br />
+                        <br />
                         Try refreshing the page and allowing access to your devices location. 
+                        <br />
+                        <br />
                         I will check your location once. You are free to remain anonymous and your location data will never be stored.
                     </Typography>
                     <Button onClick={handleClose} sx={{ mt: 2 }}>
