@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { collection, addDoc, getDocs, updateDoc, deleteDoc, doc, arrayRemove, arrayUnion, getDoc } from "firebase/firestore";
-import { db } from './firebaseConfig';
+import { db } from '../api/firebaseConfig';
 
 function rankingScore(upVotes, downVotes) {
     const score = (upVotes / downVotes) * upVotes

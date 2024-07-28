@@ -1,18 +1,21 @@
 import './App.css';
 import BottomAppBar from './components/bottom-app-bar';
 import { Outlet } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { store } from './app/store'
+import { useDispatch } from 'react-redux';
+import { setLocation } from './app/geolocatorSlice';
+import useGeoLocationCheck from './api/geolocation';
 
 function App() {
 
+  const dispatch = useDispatch();
+  const geoLocation = useGeoLocationCheck();
+  dispatch(setLocation(geoLocation));
+
   return (
-      <Provider store={store}>
-        <div className="App">
-          <Outlet />
-          <BottomAppBar></BottomAppBar>
-        </div>
-      </Provider>
+    <div className="App">
+      <Outlet />
+      <BottomAppBar></BottomAppBar>
+    </div>
   );
 }
 

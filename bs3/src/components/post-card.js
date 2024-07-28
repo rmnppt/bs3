@@ -10,7 +10,7 @@ import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
-import { upVotePost, downVotePost, sortPosts } from '../api/firestoreSlice';
+import { upVotePost, downVotePost, sortPosts } from '../app/firestoreSlice';
 import { useState } from 'react'
 
 function ConditionalLink({ children, condition, ...props }) {
@@ -28,6 +28,7 @@ export default function BasicCard({ post, extended = false}) {
   const dispatch = useDispatch()
   
   const userId = useSelector(state => state.app.user)
+  const location = useSelector(state => state.geolocation.location)
   
   const [thisPost, setThisPost] = useState({
     userUpVoted: post.upVoted.includes(userId),
@@ -70,16 +71,30 @@ export default function BasicCard({ post, extended = false}) {
         <Stack direction="row">
             <CardActions sx={{ pl: 0, ml: 0}}>
               <Stack direction="column">
-                <Button onClick={handleUpVote}>
+                <Button onClick={handleUpVote} disabled={!location.local}>
                   <Stack direction="column">
-                    <Typography fontSize={11} textAlign={"center"}>{post.upVoted.length}</Typography>
-                    <ArrowCircleUpIcon color={thisPost.userUpVoted? "primary" : "disabled"}></ArrowCircleUpIcon>
+                    <Typography 
+                      color={location.local ? "primary" : "disabled"} 
+                      fontSize={11} 
+                      textAlign={"center"}>
+                        {post.upVoted.length}
+                    </Typography>
+                    <ArrowCircleUpIcon 
+                      color={thisPost.userUpVoted ? "primary" : "disabled"}>
+                    </ArrowCircleUpIcon>
                   </Stack>
                 </Button>
-                <Button onClick={handleDownVote}>
+                <Button onClick={handleDownVote} disabled={!location.local}>
                   <Stack direction="column">
-                  <ArrowCircleDownIcon color={thisPost.userDownVoted? "secondary" : "disabled"}></ArrowCircleDownIcon>
-                    <Typography color="secondary" fontSize={11} textAlign={"center"}>{post.downVoted.length}</Typography>
+                  <ArrowCircleDownIcon 
+                    color={thisPost.userDownVoted ? "secondary" : "disabled"}>
+                  </ArrowCircleDownIcon>
+                  <Typography 
+                    color={location.local ? "secondary" : "disabled"} 
+                    fontSize={11} 
+                    textAlign={"center"}>
+                      {post.downVoted.length}
+                  </Typography>
                   </Stack>
                 </Button>
               </Stack>
