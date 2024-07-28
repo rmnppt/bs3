@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 const options = {
     enableHighAccuracy: true,
@@ -37,7 +37,7 @@ const useGeoLocationCheck = () => {
       }
   }
 
-  const onSuccess = (location) => {
+  const onSuccess = useCallback((location) => {
     console.log("Location obtained: ", location);
     setLocation({
       loaded: true,
@@ -47,9 +47,9 @@ const useGeoLocationCheck = () => {
       },
       local: isLocal(location),
     });
-  };
+  }, []);
 
-  const onError = (error) => {
+  const onError = useCallback((error) => {
     console.log("Error while obtaining geolocation: ", error);
     setLocation({
       loaded: true,
@@ -58,7 +58,7 @@ const useGeoLocationCheck = () => {
         message: error.message,
       },
     });
-  };
+  }, []);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -74,7 +74,7 @@ const useGeoLocationCheck = () => {
     } else {
       console.log("Geolocation is not supported by this browser.");
     }
-  }, []);
+  }, [onSuccess, onError, location.loaded]);
 
   return location;
 
