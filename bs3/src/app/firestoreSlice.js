@@ -4,8 +4,14 @@ import { collection, addDoc, getDocs, updateDoc, deleteDoc, doc, arrayRemove, ar
 import { db } from '../api/firebaseConfig';
 
 function rankingScore(upVotes, downVotes) {
-    const score = (upVotes / downVotes) * upVotes
-    return score
+  const n = upVotes + downVotes;
+  if (n === 0) return -1;
+
+  const z = 1.96; // 1.96 for a 95% confidence interval
+  const phat = upVotes / n;
+
+  const score = (phat + z * z / (2 * n) - z * Math.sqrt((phat * (1 - phat) + z * z / (4 * n)) / n)) / (1 + z * z / n);
+  return score;
 }
 
 function loadOrCreateId(key, defaultValue) {
@@ -98,7 +104,7 @@ const firestoreSlice = createSlice({
   
   reducers: {
     sortPosts: (state) => {
-        state.posts.sort((a, b) => rankingScore(b.upVoted.length, b.downVoted.length) - rankingScore(a.upVoted.length, a.downVoted.length) )
+        state.posts.sort((a, b) => rankingScore(b.upVoted.length, b.downVoted.length) - rankingScore(a.upVoted.length, a.downVoted.length))
     }
   },
   
@@ -110,6 +116,7 @@ const firestoreSlice = createSlice({
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.posts = action.payload;
+        state.posts.sort((a, b) => rankingScore(b.upVoted.length, b.downVoted.length) - rankingScore(a.upVoted.length, a.downVoted.length))
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = 'failed';
