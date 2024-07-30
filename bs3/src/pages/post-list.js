@@ -4,55 +4,81 @@ import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import { useLocation, Link } from 'react-router-dom';
 import { useState } from "react";
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import MainActionFab from "../components/main-action-buttons";
+import PullToRefresh from 'react-simple-pull-to-refresh';
+import { fetchPosts, sortPosts } from "../app/firestoreSlice";
 
 
 class PostList extends React.Component {
-    constructor(posts) {
-        super()
-      }
-      
-      render() {
-        return this.props.posts.map(p => {
-          return (
-            <div key={p.id}>
-                    <BasicCard 
-                        className="BasicCard"
-                        post={p}
-                        extended={false}
-                        ></BasicCard>
-                </div>
-            )
-          })
-        }
-      }
+  constructor(posts) {
+    super()
+  }
+  
+  render() {
+    return this.props.posts.map(p => {
+      return (
+        <div key={p.id}>
+          <BasicCard 
+            className="BasicCard"
+            post={p}
+            extended={false}
+          ></BasicCard>
+        </div>
+      )
+    })
+  }
+}
       
 export default function PostListPage() {
-    const posts = useSelector(state => state.app.posts)
-    const location = useLocation();
-    var snackBar = {
-        open: false,
-        postId: null
-    }
+  const dispatch = useDispatch()
+  const posts = useSelector(state => state.app.posts)
+  const location = useLocation();
+  var snackBar = {
+      open: false,
+      postId: null
+  }
 
-    if (location.state !== null) {
-        snackBar = {
-            open: true,
-            postId: location.state.postId
-        }
-        window.history.replaceState({}, document.title)
-    }
+  if (location.state !== null) {
+      snackBar = {
+          open: true,
+          postId: location.state.postId
+      }
+      window.history.replaceState({}, document.title)
+  }
 
-    return (
-        <div>
-            <MainActionFab type="new"></MainActionFab>
-            <PostList posts={posts}/>
-            <SimpleSnackbar snackbar={snackBar} />
-        </div>
-    )
+  const handleRefresh = () => {
+    return new Promise((resolve) => {
+        dispatch(fetchPosts());
+        dispatch(sortPosts());
+        resolve();
+    });
+  };
+
+  return (
+      <div>
+        <MainActionFab type="new"></MainActionFab>
+        <PullToRefresh
+          onRefresh={() => handleRefresh()}
+          pullingContent={
+            <div style={{ textAlign: 'center', padding: '10px' }}>
+              <RefreshIcon fontSize="large" color="secondary" />
+            </div>
+          }
+          refreshingContent={
+            <div style={{ textAlign: 'center', padding: '10px' }}>
+              <RefreshIcon fontSize="large" className="spin" color="secondary" />
+            </div>
+          }
+        > 
+          <PostList posts={posts} />
+        </PullToRefresh>
+        <SimpleSnackbar snackbar={snackBar} />
+      </div>
+  )
 }
 
 
