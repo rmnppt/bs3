@@ -105,7 +105,15 @@ export default function BasicCard({ post, extended = false}) {
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                 {post.author}
               </Typography>
-              <Chip label={post.tag} size="small" color="primary" variant="outlined"></Chip>
+              <Chip label={`#${post.tag}`} 
+                size="small" 
+                color="primary" 
+                variant="outlined" 
+                sx={{ 
+                backgroundColor: 'transparent', 
+                border: 'none', 
+                color: 'primary.main' 
+              }} />
               </Stack>
               <Typography variant="h5" component="div">
                 {post.title}

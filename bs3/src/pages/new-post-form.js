@@ -26,17 +26,22 @@ import MainActionFab from "../components/main-action-buttons";
 import { nanoid } from "nanoid";
 
 const validationSchema = yup.object({
+    tag: yup
+        .string("Enter a tag")
+        .matches(/^\S*$/, 'Tag must not contain spaces')        
+        .matches(/^[a-zA-Z0-9]+$/, 'Tag must contain only letters and numbers')
+        .max(16, 'Tag must be 16 characters or less'),
     author: yup
         .string("Enter your name")
         .default("Anonymous"),
     title: yup
         .string('Enter a title')
         .min(8, 'Must be 8 characters long')
-        .max(32, "Must be shorter than 32 characters long")
+        .max(32, "Must be 32 characters or less.")
         .required('Title is required'),
     body: yup
         .string('Enter your post')
-        .min(32, 'Must be 32 characters long')
+        .min(32, 'Must be 32 characters long.')
         .required('Body is required'),
   });
 
@@ -49,7 +54,7 @@ export default function PostForm() {
     const formik = useFormik({
         initialValues: {
           id: null,
-          tag: 'DISCUSSION',
+          tag: '',
           author: '',
           title: '',
           body: '',
@@ -88,18 +93,22 @@ export default function PostForm() {
                 <form onSubmit={formik.handleSubmit}>
                     <FormGroup>
                         <Stack direction="column" spacing={2}>
-                            <Stack direction="column">
-                            <FormHelperText label="Type">Type</FormHelperText>
-                                <RadioGroup row 
-                                    name="selectedTag" 
-                                    label="Tag" 
-                                    onChange={formik.handleChange}
-                                    defaultValue="DISCUSSION">
-                                    <FormControlLabel name="tag" value="DISCUSSION" control={<Radio />} label="Discussion" />
-                                    <FormControlLabel name="tag" value="EVENT" control={<Radio />} label="Event" />
-                                    <FormControlLabel name="tag" value="SALE" control={<Radio />} label="Sale" />
-                                </RadioGroup>
-                            </Stack>
+                            <FormHelperText label="Tag">Tag</FormHelperText>
+                            <TextField 
+                                id="tag" 
+                                name="tag"
+                                label="Tag" 
+                                value={formik.values.tag}
+                                onChange={formik.handleChange}
+                                error={formik.touched.tag && Boolean(formik.errors.tag)}
+                                helperText={formik.touched.tag && formik.errors.tag}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            #
+                                        </InputAdornment>
+                                    ),
+                                }}/>
                             <TextField 
                                 id="author"
                                 name="author" 
