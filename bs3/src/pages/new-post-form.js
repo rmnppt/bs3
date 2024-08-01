@@ -12,15 +12,16 @@ import {
 } from "@mui/material";
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import TitleIcon from '@mui/icons-material/Title';
-import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from 'react-redux'
 import { insertPost } from '../app/firestoreSlice'
 import MainActionFab from "../components/main-action-buttons";
 import { nanoid } from "nanoid";
+import SimpleMDEEditor from 'react-simplemde-editor';
+import 'easymde/dist/easymde.min.css';
 
 const validationSchema = yup.object({
     tag: yup
@@ -38,7 +39,7 @@ const validationSchema = yup.object({
         .required('Title is required'),
     body: yup
         .string('Enter your post')
-        .min(32, 'Must be 32 characters long.')
+        .min(32, 'Body must be 32 characters long.')
         .required('Body is required'),
   });
 
@@ -69,6 +70,7 @@ export default function PostForm() {
         const newPost = {...values, ...{ 
             id: nanoid(10)
         }}
+        // TODO: leave this field empty and render as anonymous in the UI
         if (newPost.author === "") {
             newPost.author = "anonymous"
         }
@@ -82,6 +84,18 @@ export default function PostForm() {
         setOpen(false);
         navigate(-1); // Navigate to the previous screen
     };
+
+    const handleEditorChange = useCallback((value) => {
+        formik.setFieldValue('body', value);
+    }, [formik]);
+
+    const editorOptions = useMemo(() => ({
+        toolbar: [
+            'bold', 'italic', 'heading', '|',
+            'quote', 'unordered-list', 'ordered-list', '|',
+            'link', 'preview', 'side-by-side', 'fullscreen'
+        ]
+    }), []);
     
     return (
         <>
@@ -90,7 +104,7 @@ export default function PostForm() {
                 <form onSubmit={formik.handleSubmit}>
                     <FormGroup>
                         <Stack direction="column" spacing={2}>
-                            <FormHelperText label="Tag">Tag</FormHelperText>
+                            <FormHelperText label="Details">Details</FormHelperText>
                             <TextField 
                                 id="tag" 
                                 name="tag"
@@ -135,21 +149,19 @@ export default function PostForm() {
                                         </InputAdornment>
                                     ),
                                 }}/>
-                            <TextField 
-                                id="body"
-                                name="body" 
-                                label="Body" 
-                                value={formik.values.body}
-                                multiline onChange={formik.handleChange}
-                                error={formik.touched.body && Boolean(formik.errors.body)}
-                                helperText={formik.touched.body && formik.errors.body}
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <TextSnippetIcon />
-                                        </InputAdornment>
-                                    ),
-                                }}/>
+                            <FormHelperText label="Body">Body</FormHelperText>
+                            <div>
+                                <SimpleMDEEditor
+                                    id="body"
+                                    value={formik.values.body}
+                                    onChange={handleEditorChange}
+                                    onBlur={() => formik.setFieldTouched('body', true)}
+                                    options={editorOptions}
+                                />
+                                {formik.touched.body && formik.errors.body ? (
+                                    <FormHelperText error>{formik.errors.body}</FormHelperText>
+                                ) : null}
+                            </div>
                         </Stack>
                         <MainActionFab type="submit"></MainActionFab>
                     </FormGroup>
