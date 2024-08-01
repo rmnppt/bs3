@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { upVotePost, downVotePost, sortPosts } from '../app/firestoreSlice';
 import { useState } from 'react'
+import ReactMarkdown from 'react-markdown';
 
 function ConditionalLink({ children, condition, ...props }) {
   return !!condition && props.to ? 
@@ -50,7 +51,7 @@ export default function BasicCard({ post, extended = false}) {
   }
 
   if (extended === false) {
-    post = {...post, body: post.body.slice(0, 75) + "..."}
+    post = {...post, body: post.body.replace(/\n/g, ' ').slice(0, 75) + "..."}
   }
   
   function handleUpVote() {
@@ -68,9 +69,9 @@ export default function BasicCard({ post, extended = false}) {
   return (
     <Card sx={{ minWidth: 275, maxHeight: 275, my: 2, mx: 2, wordBreak: "break-word"}}>
       <CardContent>
-        <Stack direction="row">
+        <Stack direction="row" alignItems="flex-start">
             <CardActions sx={{ pl: 0, ml: 0}}>
-              <Stack direction="column">
+              <Stack direction="column" alignItems="flex-start">
                 <Button onClick={handleUpVote} disabled={!location.local}>
                   <Stack direction="column">
                     <Typography 
@@ -118,9 +119,9 @@ export default function BasicCard({ post, extended = false}) {
               <Typography variant="h5" component="div">
                 {post.title}
               </Typography> 
-              <Typography variant="body2">
+              <ReactMarkdown>
                 {post.body}
-              </Typography>
+              </ReactMarkdown>
           </CardActionArea>
           </ConditionalLink>
         </Stack>
