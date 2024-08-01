@@ -15,7 +15,7 @@ import TitleIcon from '@mui/icons-material/Title';
 import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux'
 import { insertPost } from '../app/firestoreSlice'
 import MainActionFab from "../components/main-action-buttons";
@@ -65,6 +65,8 @@ export default function PostForm() {
         },
       });
 
+    const hasLoadedFromLocalStorage = useRef(false);
+
     function handleSubmit(values) {
 
         const newPost = {...values, ...{ 
@@ -78,6 +80,10 @@ export default function PostForm() {
         console.log("Post Submitted:");
         console.log(newPost);
         navigate("/", { state: { postId: newPost.id } });
+    }
+
+    function handleClear() {
+        formik.resetForm();
     }
 
     const handleClose = () => {
@@ -96,11 +102,32 @@ export default function PostForm() {
             'link', 'preview', 'side-by-side', 'fullscreen'
         ]
     }), []);
+
+    useEffect(() => {
+        console.debug(`Loading saved form values.`);
+        if (!hasLoadedFromLocalStorage.current) {
+          // Load form values from localStorage when component mounts
+          const savedForm = localStorage.getItem('newPostForm');
+          if (savedForm) {
+            formik.setValues(JSON.parse(savedForm));
+          }
+          hasLoadedFromLocalStorage.current = true;
+        }
+      }, [formik]);
+    
+    useEffect(() => {
+        // Save form values to localStorage whenever they change
+        localStorage.setItem('newPostForm', JSON.stringify(formik.values));
+        console.debug(`Saved form values: ${JSON.stringify(formik.values)}`);
+    }, [formik.values]);
     
     return (
         <>
             { location.local ? (
                 <Paper sx={{ m: 2, p: 2}}>
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button onClick={handleClear}>Clear</Button>
+                </div>
                 <form onSubmit={formik.handleSubmit}>
                     <FormGroup>
                         <Stack direction="column" spacing={2}>
