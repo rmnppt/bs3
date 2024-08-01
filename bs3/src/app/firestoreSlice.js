@@ -83,11 +83,19 @@ export const updatePost = createAsyncThunk(
 );
 
 export const deletePost = createAsyncThunk(
-  'firestore/deletePost',
-  async (id) => {
-    const docRef = doc(db, 'posts', id);
-    await deleteDoc(docRef);
-    return id;
+  'posts/deletePost',
+  async (id, thunkAPI) => {
+    try {
+      console.log("Deleting post with ID:", id);
+      const docRef = doc(db, 'posts', id);
+      console.log("Document reference:", docRef);
+      await deleteDoc(docRef);
+      console.log("Document deleted successfully");
+      return id;
+    } catch (error) {
+      console.error("Error deleting document: ", error);
+      return thunkAPI.rejectWithValue({ error: error.message });
+    }
   }
 );
 
