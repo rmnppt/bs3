@@ -19,7 +19,6 @@ import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux'
 import { insertPost } from '../app/firestoreSlice'
 import MainActionFab from "../components/main-action-buttons";
-import { nanoid } from "nanoid";
 import SimpleMDEEditor from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css';
 
@@ -46,12 +45,12 @@ const validationSchema = yup.object({
 export default function PostForm() {
     const navigate = useNavigate();
     const dispatch = useDispatch()
+    const userId = useSelector(state => state.app.user)
     const location = useSelector(state => state.geolocation.location)
     const [open, setOpen] = useState(!location.local);
 
     const formik = useFormik({
         initialValues: {
-          id: null,
           tag: '',
           author: '',
           title: '',
@@ -70,16 +69,17 @@ export default function PostForm() {
     function handleSubmit(values) {
 
         const newPost = {...values, ...{ 
-            id: nanoid(10)
+            userId: userId,
+            timestamp: new Date().toISOString(),
         }}
         // TODO: leave this field empty and render as anonymous in the UI
         if (newPost.author === "") {
             newPost.author = "anonymous"
         }
-        dispatch(insertPost(newPost));
+        const submittedPost = dispatch(insertPost(newPost));
         console.log("Post Submitted:");
-        console.log(newPost);
-        navigate("/", { state: { postId: newPost.id } });
+        console.log(submittedPost);
+        navigate("/", { state: { postId: submittedPost.id } });
     }
 
     function handleClear() {
@@ -126,6 +126,7 @@ export default function PostForm() {
             { location.local ? (
                 <Paper sx={{ m: 2, p: 2}}>
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button onClick={() => navigate(-1)}>Save</Button>
                     <Button onClick={handleClear}>Clear</Button>
                 </div>
                 <form onSubmit={formik.handleSubmit}>
