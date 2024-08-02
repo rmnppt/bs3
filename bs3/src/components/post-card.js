@@ -112,7 +112,7 @@ export default function BasicCard({ post, extended = false}) {
   return (
     <Card sx={{ 
       minWidth: 275, 
-      maxHeight: 275, 
+      maxHeight: extended ? 'none' : 275,
       my: 2, 
       mx: 2, 
       wordBreak: "break-word",
