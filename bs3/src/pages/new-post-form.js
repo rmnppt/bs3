@@ -202,25 +202,35 @@ export default function PostForm() {
                     aria-labelledby="modal-title"
                     aria-describedby="modal-description"
                 >
-                    <Box sx={{ p: 4, bgcolor: 'background.paper', borderRadius: 1 }}>
-                    <Typography id="modal-title" variant="h6" component="h2">
-                        Oops
-                    </Typography>
-                    <Typography id="modal-description" sx={{ mt: 2 }}>
-                        You do not seem to be in the local area. You are in guest mode. 
-                        <br />
-                        <br />
-                        You cannot submit a post.
-                        <br />
-                        <br />
-                        Try refreshing the page and allowing access to your devices location. 
-                        <br />
-                        <br />
-                        I will check your location once. You are free to remain anonymous and your location data will never be stored.
-                    </Typography>
-                    <Button onClick={handleClose} sx={{ mt: 2 }}>
-                        OK
-                    </Button>
+                    <Box 
+                        sx={{ 
+                            p: 4, 
+                            bgcolor: 'background.paper', 
+                            borderRadius: 1, 
+                            margin: 'auto', 
+                            maxWidth: '500px', 
+                            mt: '10%', 
+                            boxShadow: 24 
+                        }}
+                    >
+                        <Typography id="modal-title" variant="h6" component="h2">
+                            Oops
+                        </Typography>
+                        <Typography id="modal-description" sx={{ mt: 2 }}>
+                            You do not seem to be in the local area. You are in guest mode. 
+                            <br />
+                            <br />
+                            You cannot submit a post.
+                            <br />
+                            <br />
+                            Try refreshing the page and allowing access to your devices location. 
+                            <br />
+                            <br />
+                            I will check your location once. You are free to remain anonymous and your location data will never be stored.
+                        </Typography>
+                        <Button onClick={handleClose} sx={{ mt: 2 }}>
+                            OK
+                        </Button>
                     </Box>
                 </Modal>
             )}

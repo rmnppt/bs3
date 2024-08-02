@@ -17,7 +17,17 @@ export default function AppWrapper() {
             aria-labelledby="modal-title"
             aria-describedby="modal-description"
         >
-        <Box sx={{ p: 4, bgcolor: 'background.paper', borderRadius: 1 }}>
+        <Box 
+            sx={{ 
+                p: 4, 
+                bgcolor: 'background.paper', 
+                borderRadius: 1, 
+                margin: 'auto', 
+                maxWidth: '500px', 
+                mt: '10%', 
+                boxShadow: 24 
+            }}
+        >
         <Typography id="modal-title" variant="h6" component="h2">
             Welcome to the BS3 community.
         </Typography>
