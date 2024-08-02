@@ -27,6 +27,24 @@ function ConditionalLink({ children, condition, ...props }) {
     </Link> : <>{children}</>
 }
 
+function timeAgo(timestamp) {
+  const now = new Date();
+  const postDate = new Date(timestamp);
+  const diffInSeconds = Math.floor((now - postDate) / 1000);
+
+  if (diffInSeconds < 60) {
+    return 'now';
+  } else if (diffInSeconds < 3600) {
+    const minutes = Math.floor(diffInSeconds / 60);
+    return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+  } else if (diffInSeconds < 86400) {
+    const hours = Math.floor(diffInSeconds / 3600);
+    return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+  } else {
+    const days = Math.floor(diffInSeconds / 86400);
+    return `${days} day${days > 1 ? 's' : ''} ago`;
+  }
+}
 
 
 export default function BasicCard({ post, extended = false}) {
@@ -132,6 +150,11 @@ export default function BasicCard({ post, extended = false}) {
             </Modal>
           </div>
         )}
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Typography variant="body2" color="text.secondary" gutterBottom>
+            {timeAgo(post.timestamp)}
+          </Typography>
+        </Box>
         <Stack direction="row" alignItems="flex-start">
           <CardActions sx={{ pl: 0, ml: 0}}>
             <Stack direction="column" alignItems="flex-start">
