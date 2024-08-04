@@ -44,7 +44,7 @@ export const upVotePost = createAsyncThunk(
     });
 
     const updatedPost = (await getDoc(post)).data()
-    return updatedPost 
+    return { id, ...updatedPost }
   }
 );
 
@@ -60,7 +60,7 @@ export const downVotePost = createAsyncThunk(
     });
 
     const updatedPost = (await getDoc(post)).data()
-    return updatedPost
+    return { id, ...updatedPost }
   }
 );
 
