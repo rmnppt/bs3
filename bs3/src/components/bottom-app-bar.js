@@ -47,7 +47,9 @@ function HideOnScroll(props) {
                         </IconButton>
                         <Box sx={{ flexGrow: 1 }} />
                         <Box>
-                          <Typography variant="caption" sx={{ marginBottom: 0, marginTop: 2 }}>User ID - {user}</Typography>
+                          <Typography variant="caption" sx={{ marginBottom: 0, marginTop: 2 }}>
+                            User ID - {user}
+                          </Typography>
                           <br />
                           { location.local ? (
                             <Box sx = {{ display: "flex", justifyContent: "flex-end" }}>
