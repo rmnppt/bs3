@@ -3,7 +3,11 @@ import { createSlice } from '@reduxjs/toolkit';
 export const geolocationSlice = createSlice({
   name: 'geolocation',
   initialState: {
-  	location: null, 
+  	location: {
+      loaded: false,
+      coordinates: { lat: null, lng: null },
+      local: false,
+    } 
   },
   reducers: {
     setLocation: (state, action) => {
