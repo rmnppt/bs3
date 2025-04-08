@@ -114,11 +114,26 @@ export default function BasicCard({ post, extended = false}) {
       minWidth: 275, 
       maxHeight: extended ? 'none' : 275,
       my: 2, 
-      mx: 2, 
+      mx: 2,
       wordBreak: "break-word",
       border: post.userId === userId ? '1px solid' : 'none', 
       borderColor: 'secondary.main' }}>
-      <CardContent>
+      <CardContent sx={{
+        my: 0,
+        mx: 0,
+        padding: 1,
+        paddingBottom: 0,
+        margin: 0, 
+        marginBottom: 0,  
+        gutterBottom: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        height: '100%',
+        width: '100%',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+      }}>
         {post.userId === userId && extended && (
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <IconButton onClick={handleEdit}>
@@ -155,38 +170,55 @@ export default function BasicCard({ post, extended = false}) {
             {timeAgo(post.timestamp)}
           </Typography>
         </Box>
-        <Stack direction="row" alignItems="flex-start">
+        <Stack direction="row" alignItems="flex-start" sx={{
+          my: 0,
+          mx: 0,
+          padding: 1,
+          paddingBottom: 0,        
+        }}>
           <CardActions sx={{ pl: 0, ml: 0}}>
-            <Stack direction="column" alignItems="flex-start">
-              <Button onClick={handleUpVote} disabled={!location.local}>
-                <Stack direction="column">
+            <Stack direction="column" alignItems="flex-start" spacing={0.5}>
+              <Button 
+                onClick={handleUpVote} 
+                disabled={!location.local} 
+                sx={{ minWidth: 'auto', padding: '4px' }}
+              >
+                <Stack direction="column" spacing={0.5}>
                   <Typography 
                     color={location.local ? "primary" : "disabled"} 
                     fontSize={11} 
-                    textAlign={"center"}>
-                      {post.upVoted.length}
+                    textAlign={"center"}
+                  >
+                    {post.upVoted.length}
                   </Typography>
                   <ArrowCircleUpIcon 
-                    color={thisPost.userUpVoted ? "primary" : "disabled"}>
-                  </ArrowCircleUpIcon>
+                    color={thisPost.userUpVoted ? "primary" : "disabled"} 
+                    fontSize="small"
+                  />
                 </Stack>
               </Button>
-              <Button onClick={handleDownVote} disabled={!location.local}>
-                <Stack direction="column">
-                <ArrowCircleDownIcon 
-                  color={thisPost.userDownVoted ? "secondary" : "disabled"}>
-                </ArrowCircleDownIcon>
-                <Typography 
-                  color={location.local ? "secondary" : "disabled"} 
-                  fontSize={11} 
-                  textAlign={"center"}>
+              <Button 
+                onClick={handleDownVote} 
+                disabled={!location.local} 
+                sx={{ minWidth: 'auto', padding: '4px' }}
+              >
+                <Stack direction="column" spacing={0.5}>
+                  <ArrowCircleDownIcon 
+                    color={thisPost.userDownVoted ? "secondary" : "disabled"} 
+                    fontSize="small"
+                  />
+                  <Typography 
+                    color={location.local ? "secondary" : "disabled"} 
+                    fontSize={11} 
+                    textAlign={"center"}
+                  >
                     {post.downVoted.length}
-                </Typography>
+                  </Typography>
                 </Stack>
               </Button>
             </Stack>
           </CardActions>
-          <ConditionalLink condition={!extended} to={`p/${post.id}`}>
+          <ConditionalLink condition={!extended} to={`p/${post.id}`} sx={{ width: '100%' }}>
             <CardActionArea>
               <Stack direction="row" spacing={1}>
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
