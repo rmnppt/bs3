@@ -8,7 +8,7 @@ interface AppModalProps {
 }
 
 const AppModal: React.FC<AppModalProps> = ({ onClose }) => {
-  const [showModal, setShowModal] = useState(true);
+  const [showModal] = useState(true);
 
   return (
     <Modal

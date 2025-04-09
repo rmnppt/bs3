@@ -3,7 +3,6 @@ import { useLoaderData } from "react-router-dom";
 import BasicCard from "../components/post-card";
 import { useSelector } from "react-redux";
 import MainActionFab from "../components/main-action-buttons";
-import { PostData } from "../types/types";
 import { RootState } from "../app/store";
 import type { LoaderFunction } from '@remix-run/router';
 
