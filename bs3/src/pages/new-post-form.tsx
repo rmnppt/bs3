@@ -4,7 +4,6 @@ import React, {
   useMemo,
   useEffect,
   useRef,
-  FormEvent,
 } from "react";
 import {
   Paper,
