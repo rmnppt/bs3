@@ -129,7 +129,7 @@ export default function BasicCard({ post, extended = false }: BasicCardProps) {
         minWidth: 275,
         maxHeight: extended ? 'none' : 275,
         my: 2,
-        mx: 2,
+        mx: 1, // changed from mx: 2
         wordBreak: 'break-word',
         border: post.userId === userId ? '1px solid' : 'none',
         borderColor: 'secondary.main',
@@ -139,16 +139,8 @@ export default function BasicCard({ post, extended = false }: BasicCardProps) {
         sx={{
           my: 0,
           mx: 0,
-          padding: 1,
-          paddingBottom: 0,
-          margin: 0,
-          marginBottom: 0,
-          gutterBottom: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          height: '100%',
-          width: '100%',
+          px: 1, // reduced horizontal padding
+          py: 1,
           overflow: 'hidden',
           textOverflow: 'ellipsis',
         }}
@@ -201,8 +193,8 @@ export default function BasicCard({ post, extended = false }: BasicCardProps) {
           sx={{
             my: 0,
             mx: 0,
-            padding: 1,
-            paddingBottom: 0,
+            px: 0, // removed horizontal padding
+            py: 1,
           }}
         >
           <CardActions sx={{ pl: 0, ml: 0 }}>
@@ -269,7 +261,13 @@ export default function BasicCard({ post, extended = false }: BasicCardProps) {
                 {post.title}
               </Typography>
               <Typography component="div">
-                <ReactMarkdown>{post.body}</ReactMarkdown>
+                <ReactMarkdown
+                  components={{
+                    ul: ({node, ...props}) => <ul style={{ paddingLeft: '1em' }} {...props as React.HTMLAttributes<HTMLUListElement>} />,
+                  }}
+                >
+                  {post.body}
+                </ReactMarkdown>
               </Typography>
             </CardActionArea>
           </ConditionalLink>
