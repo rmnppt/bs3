@@ -23,8 +23,6 @@ function CommentsSection({ postId }: CommentsSectionProps) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [text, setText] = useState('');
   
-  const [focused, setFocused] = useState(false);
-  
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const userId = useAppSelector(state => state.app.user);
@@ -103,8 +101,6 @@ function CommentsSection({ postId }: CommentsSectionProps) {
                   required
                   fullWidth
                   sx={{ mb: 1 }}
-                  onFocus={() => setFocused(true)}
-                  onBlur={() => setFocused(false)}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
