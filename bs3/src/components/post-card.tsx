@@ -5,17 +5,22 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
-import { CardActionArea, Stack, IconButton, Modal, Box } from '@mui/material';
+import { CardActionArea, Stack, IconButton, Modal, Box, Divider } from '@mui/material';
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { upVotePost, downVotePost, sortPosts, deletePost } from '../app/firestoreSlice';
-import { useState } from 'react'
+import { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { PostData } from '../types/types';
+import CommentsSection from './comments-section';
+import { timeAgo } from './utils';
+import { collection, onSnapshot, query } from 'firebase/firestore';
+import { db } from '../api/firebaseConfig'; // adjust import if needed
 
 // Define types for ConditionalLink props
 interface ConditionalLinkProps {
@@ -46,11 +51,11 @@ interface ThisPostState {
 }
 
 export default function BasicCard({ post, extended = false }: BasicCardProps) {
-  
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const [deleteWarningOpen, setDeleteWarningOpen] = useState<boolean>(false);
+  const [commentsCount, setCommentsCount] = useState<number>(0);
 
   const userId = useAppSelector(state => state.app.user);
   const location = useAppSelector(state => state.geolocation.location);
@@ -59,6 +64,15 @@ export default function BasicCard({ post, extended = false }: BasicCardProps) {
     userUpVoted: post.upVoted.includes(userId),
     userDownVoted: post.downVoted.includes(userId),
   });
+
+  useEffect(() => {
+    const commentsRef = collection(db, 'posts', post.id, 'comments');
+    const q = query(commentsRef);
+    const unsub = onSnapshot(q, (snapshot) => {
+      setCommentsCount(snapshot.size);
+    });
+    return () => unsub();
+  }, [post.id]);
 
   const handleEdit = () => {
     localStorage.setItem('newPostForm', JSON.stringify(post));
@@ -171,9 +185,15 @@ export default function BasicCard({ post, extended = false }: BasicCardProps) {
           </div>
         )}
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Typography variant="body2" color="text.secondary" gutterBottom>
-            {timeAgo(post.timestamp)}
-          </Typography>
+          <Stack direction="row" spacing={1} alignItems="center">
+            <Typography variant="body2" color="text.secondary" gutterBottom>
+              {commentsCount}
+            </Typography>
+            <ChatBubbleIcon fontSize="small" sx={{color: 'gray'}}/>
+            <Typography variant="body2" color="text.secondary" gutterBottom>
+              {timeAgo(post.timestamp)}
+            </Typography>
+          </Stack>
         </Box>
         <Stack
           direction="row"
@@ -248,31 +268,19 @@ export default function BasicCard({ post, extended = false }: BasicCardProps) {
               <Typography variant="h5" component="div">
                 {post.title}
               </Typography>
-              <ReactMarkdown>{post.body}</ReactMarkdown>
+              <Typography component="div">
+                <ReactMarkdown>{post.body}</ReactMarkdown>
+              </Typography>
             </CardActionArea>
           </ConditionalLink>
         </Stack>
       </CardContent>
+      {extended && (
+        <>
+          <Divider sx={{ my: 2 }} />
+          <CommentsSection postId={post.id} />
+        </>
+      )}
     </Card>
   );
-}
-
-// Helper function for timeAgo
-function timeAgo(timestamp: string): string {
-  const now = new Date();
-  const postDate = new Date(timestamp);
-  const diffInSeconds = Math.floor((now.getTime() - postDate.getTime()) / 1000);
-
-  if (diffInSeconds < 60) {
-    return 'now';
-  } else if (diffInSeconds < 3600) {
-    const minutes = Math.floor(diffInSeconds / 60);
-    return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
-  } else if (diffInSeconds < 86400) {
-    const hours = Math.floor(diffInSeconds / 3600);
-    return `${hours} hour${hours > 1 ? 's' : ''} ago`;
-  } else {
-    const days = Math.floor(diffInSeconds / 86400);
-    return `${days} day${days > 1 ? 's' : ''} ago`;
-  }
 }
