@@ -1,3 +1,13 @@
+export type Comment = {
+    id: string;
+    author: string;
+    text: string;
+    upVoted: string[];
+    downVoted: string[];
+    timestamp: string;
+    userId: string;
+}
+
 export type PostData = {
     id: string;
     title: string;
