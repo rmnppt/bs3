@@ -5,7 +5,7 @@ import requests
 from datetime import datetime
 
 
-class PerplexityHeadline(BaseModel):
+class Headline(BaseModel):
     title: str
     summary: str
     publisher: str
@@ -13,10 +13,11 @@ class PerplexityHeadline(BaseModel):
     last_updated: datetime
 
 
-class PerplexityHeadlines(BaseModel):
-    headlines: List[PerplexityHeadline]
+class Headlines(BaseModel):
+    headlines: List[Headline]
 
 
+### TODO: make the system prompt more specific and sophisticated
 SYSTEM_PROMPT = f"""
     Describe the main headlines gathered from online news in the Bristol South, UK area.
     Give 5 headlines numbered 1-5 and ensure that each one is supported with one the of the returned urls.
@@ -28,7 +29,7 @@ SYSTEM_PROMPT = f"""
     The output should be a json array of objects.
     Each of the headlines should be returned as a with the fields; 
     
-    {PerplexityHeadline.model_json_schema()}
+    {Headline.model_json_schema()}
 """
 
 
@@ -50,22 +51,23 @@ class Perplexity:
 
         return headers
 
-    def get_response(self, query: str) -> dict:
+    def get_headlines(self) -> dict:
 
         payload = {
             "model": "sonar",
             "messages": [
                 {
                     "role": "user",
-                    "content": query,
+                    "content": SYSTEM_PROMPT,
                 }
             ],
+            "enable_search_classifier": True,
             "web_search_options": {
                 "user_location": {"country": "GB", "city": "Bristol"}
             },
             "response_format": {
                 "type": "json_schema",
-                "json_schema": {"schema": PerplexityHeadlines.model_json_schema()},
+                "json_schema": {"schema": Headlines.model_json_schema()},
             },
         }
 
@@ -77,12 +79,12 @@ class Perplexity:
             )
 
         data = response.json()["choices"][0]["message"]["content"]
-        PerplexityHeadlines.model_validate_json(data)
+        Headlines.model_validate_json(data)
 
         return data
 
 
 if __name__ == "__main__":
     client = Perplexity()
-    response = client.get_response(SYSTEM_PROMPT)
+    response = client.get_headlines()
     print(response)
