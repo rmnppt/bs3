@@ -1,0 +1,15 @@
+[project]
+name = "bs3-functions"
+version = "0.1.0"
+description = "Firebase serverless functions for BS3"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pydantic>=2.11.7",
+    "requests>=2.32.5",
+]
+
+[dependency-groups]
+dev = [
+    "debugpy>=1.8.16",
+]
