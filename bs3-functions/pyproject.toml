@@ -5,6 +5,7 @@ description = "Firebase serverless functions for BS3"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "firebase-functions>=0.4.3",
     "pydantic>=2.11.7",
     "requests>=2.32.5",
 ]
