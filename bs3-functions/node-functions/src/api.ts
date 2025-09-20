@@ -21,14 +21,14 @@ export interface Headlines {
 }
 
 const SYSTEM_PROMPT = `
-    Describe the main headlines gathered from online news in the Bristol South, UK area.
+    Describe the main headlines gathered from online news websites in the Bristol South, UK area.
     Give 5 headlines numbered 1-5 and ensure that each one is supported with one the of the returned urls.
 
     For each headline record a title, a short summary paragraph, a url linking to the orginal source, 
     the name of the original publisher and a date at which the article was last updated.
 
     The output should be json structured as follows:
-    The output should be a json array of objects.
+    The output should be a json object with a key named "headlines" which contains an array of objects.
     Each of the headlines should be returned as a with the fields;
 
     title: The title of the article
@@ -101,9 +101,15 @@ export class Perplexity {
           content: SYSTEM_PROMPT,
         },
       ],
-      enable_search_classifier: true,
+      // enable_search_classifier: true,
       web_search_options: {
-        user_location: { country: "GB", city: "Bristol" },
+        user_location: {
+          country: "GB",
+          region: "Birstol City",
+          city: "Bristol",
+          latitude: 51.26292,
+          longitude: 2.36056,
+        },
       },
       response_format: {
         type: "json_schema",
@@ -111,28 +117,29 @@ export class Perplexity {
       },
     };
 
-    const response = await axios.post(this.url, payload, {
+    const response = await axios.post(this.url, JSON.stringify(payload), {
       headers: this.headers,
     });
 
     if (!response.status.toString().startsWith("2")) {
       throw new Error(
-        `Error in fetching response from Sonar API: ${response.data}`,
+        `Error in fetching response from Sonar API: ${response.statusText}`,
       );
     }
 
     const data = response.data.choices[0].message.content;
-    console.log("Perplexity API response data:", data);
+
+    const jsonData = JSON.parse(data);
 
     // Validate structure
-    const valid = validateHeadlines(data);
+    const valid = validateHeadlines(jsonData);
     if (!valid) {
       throw new Error(
         `Validation failed: ${ajv.errorsText(validateHeadlines.errors)}`,
       );
     }
 
-    return data;
+    return jsonData;
   }
 }
 
@@ -141,8 +148,15 @@ export class Perplexity {
   const client = new Perplexity();
   try {
     const response = await client.getHeadlines();
-    console.log(response);
+    console.log(JSON.stringify(response, null, 2));
   } catch (error) {
-    console.error(error);
+    if (axios.isAxiosError(error) && error.response) {
+      console.error(
+        "API Error Response:",
+        JSON.stringify(error.response.data, null, 2),
+      );
+    } else {
+      console.error("An unexpected error occurred:", error);
+    }
   }
 })();

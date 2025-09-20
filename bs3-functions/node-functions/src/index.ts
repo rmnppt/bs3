@@ -37,9 +37,7 @@ admin.initializeApp();
 const firestore = admin.firestore();
 
 // Schedule to run every Sunday at midnight UTC
-
-// export const addHeadlinesWeekly = onSchedule("0 0 * * 0", async (event) => {
-export const addHeadlinesWeekly = onSchedule("* * * * *", async (event) => {
+export const addHeadlinesWeekly = onSchedule("0 0 * * 0", async (event) => {
   console.log("Scheduled function triggered at", event.scheduleTime);
   try {
     const perplexityClient = new Perplexity();
