@@ -1,0 +1,12 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // This configuration will enable unrestricted access to your Firestore database, allowing any user to read from and write to all documents.
+    // Important Warning: Allowing unrestricted access to your Firestore database is highly discouraged for production applications as it exposes your database to potential malicious activities, including unauthorized data access, data modification, and data deletion. Always aim to implement and maintain appropriate security rules that match your application's data access requirements.
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}

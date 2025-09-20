@@ -16,13 +16,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
+          node-version: '22.x'
 
-      - name: Install dependencies
+      - name: Install web dependencies
         run: yarn install
         working-directory: ./bs3
 
-      - name: Build
+      - name: Build web
         run: yarn build
         working-directory: ./bs3
         env:
@@ -33,3 +33,13 @@ jobs:
           REACT_APP_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}
           REACT_APP_FIREBASE_APP_ID: ${{ secrets.REACT_APP_FIREBASE_APP_ID }}
           REACT_APP_FIREBASE_MEASUREMENT_ID: ${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}
+
+      - name: Install function dependencies
+        run: yarn install
+        working-directory: ./bs3-functions/node-functions
+
+      - name: Build functions
+        run: yarn build
+        working-directory: ./bs3-functions/node-functions
+        env:
+          PERPLEXITY_SONAR_API_KEY: ${{ secrets.PERPLEXITY_SONAR_API_KEY }}
