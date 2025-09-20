@@ -29,5 +29,6 @@ module.exports = {
     "object-curly-spacing": "off",
     "block-spacing": "off",
     "max-len": "off",
+    "quote-props": ["error", "as-needed"],
   },
 };
