@@ -105,7 +105,7 @@ export class Perplexity {
       web_search_options: {
         user_location: {
           country: "GB",
-          region: "Birstol City",
+          region: "Bristol City",
           city: "Bristol",
           latitude: 51.26292,
           longitude: 2.36056,
