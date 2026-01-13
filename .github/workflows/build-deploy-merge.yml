@@ -46,10 +46,10 @@ jobs:
           credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_BS3APP_DFB63 }}'
 
       - name: Deploy functions
-        run: firebase deploy --only functions --project bs3app-dfb63
+        run: firebase deploy --only functions --project bs3app-dfb63 --force
         working-directory: ./bs3-functions
         env:
-          PERPLEXITY_SONAR_API_KEY: ${{ secrets.PERPLEXITY_SONAR_API_KEY }}
+          PERPLEXITY_SONAR_API_KEY: dummy-api-key-change-me
       
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
