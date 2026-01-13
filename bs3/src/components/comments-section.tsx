@@ -25,7 +25,7 @@ function CommentsSection({ postId }: CommentsSectionProps) {
   
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const userId = useAppSelector(state => state.app.user);
+  const userId = useAppSelector(state => state.firestore.user);
   const location = useAppSelector(state => state.geolocation.location);
 
   useEffect(() => {

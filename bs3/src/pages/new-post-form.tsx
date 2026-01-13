@@ -61,7 +61,7 @@ export default function PostForm(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   
-  const userId = useAppSelector((state) => state.app.user);
+  const userId = useAppSelector((state) => state.firestore.user);
   const location = useAppSelector((state) => state.geolocation.location);
   
   const [open, setOpen] = useState<boolean>(!location.local);
