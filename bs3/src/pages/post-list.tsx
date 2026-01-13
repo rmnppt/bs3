@@ -45,7 +45,7 @@ interface SnackBarState {
 // PostListPage component
 export default function PostListPage(): JSX.Element {
   const dispatch = useAppDispatch();
-  const posts = useAppSelector((state: RootState) => state.app.posts);
+  const posts = useAppSelector((state: RootState) => state.firestore.posts);
   const location = useLocation();
   let snackBar: SnackBarState = { open: false, postId: null };
 

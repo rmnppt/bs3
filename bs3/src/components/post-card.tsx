@@ -57,7 +57,7 @@ export default function BasicCard({ post, extended = false }: BasicCardProps) {
   const [deleteWarningOpen, setDeleteWarningOpen] = useState<boolean>(false);
   const [commentsCount, setCommentsCount] = useState<number>(0);
 
-  const userId = useAppSelector(state => state.app.user);
+  const userId = useAppSelector(state => state.firestore.user);
   const location = useAppSelector(state => state.geolocation.location);
 
   const [thisPost, setThisPost] = useState<ThisPostState>({

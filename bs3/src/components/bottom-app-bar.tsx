@@ -35,7 +35,7 @@ HideOnScroll.propTypes = {
 
 // Define the types for the Redux state
 interface AppState {
-  app: {
+  firestore: {
     user: string;
   };
   geolocation: {
@@ -46,7 +46,7 @@ interface AppState {
 }
 
 export default function BottomAppBar(): JSX.Element {
-  const user = useSelector((state: AppState) => state.app.user);
+  const user = useSelector((state: AppState) => state.firestore.user);
   const location = useSelector((state: AppState) => state.geolocation.location);
 
   return (

@@ -4,7 +4,7 @@ import geolocatorReducer from './geolocatorSlice';
 
 export const store = configureStore({
   reducer: {
-    app: firestoreReducer,
+    firestore: firestoreReducer,
     geolocation: geolocatorReducer,
   },
 });

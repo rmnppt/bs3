@@ -24,7 +24,7 @@ export const idLoader: LoaderFunction = ({ params }: LoaderArgs) => {
 function Post(): JSX.Element {
   const postId = useLoaderData() as string;
   const post = useSelector((state: RootState) =>
-    state.app.posts.find((item) => item.id === postId)
+    state.firestore.posts.find((item) => item.id === postId)
   );
 
   if (!post) {
