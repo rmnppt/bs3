@@ -21,6 +21,7 @@ import * as admin from "firebase-admin";
 import { Perplexity, Headlines } from "./api";
 import { onSchedule } from "firebase-functions/v2/scheduler";
 import { logger } from "firebase-functions";
+export { archiveExpiredPosts } from "./archiveExpiredPosts";
 
 // For cost control, you can set the maximum number of containers that can be
 // running at the same time. This helps mitigate the impact of unexpected
