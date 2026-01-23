@@ -18,6 +18,7 @@ export type PostData = {
     downVoted: string[];
     timestamp: string;
     userId: string;
+    expiryPeriod?: '24h' | '3d' | '7d'; // Optional for migration/backward compatibility
 };
 
 export type FirestoreState = {

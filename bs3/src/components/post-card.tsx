@@ -18,7 +18,7 @@ import { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { PostData } from '../types/types';
 import CommentsSection from './comments-section';
-import { timeAgo } from './utils';
+import { timeAgo, timeRemaining } from './utils';
 import { collection, onSnapshot, query } from 'firebase/firestore';
 import { db } from '../api/firebaseConfig'; // adjust import if needed
 
@@ -176,16 +176,29 @@ export default function BasicCard({ post, extended = false }: BasicCardProps) {
             </Modal>
           </div>
         )}
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+         <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
           <Stack direction="row" spacing={1} alignItems="center">
             <Typography variant="body2" color="text.secondary" gutterBottom>
               {commentsCount}
             </Typography>
-            <ChatBubbleIcon fontSize="small" sx={{color: 'gray'}}/>
+            <ChatBubbleIcon fontSize="small" sx={{ color: 'gray' }} />
             <Typography variant="body2" color="text.secondary" gutterBottom>
               {timeAgo(post.timestamp)}
             </Typography>
           </Stack>
+          {/* Post expiry display */}
+          {(() => {
+            const { text, isExpiringSoon } = timeRemaining(post.timestamp, post.expiryPeriod);
+            return (
+              <Typography
+                variant="body2"
+                sx={{ ml: 2, color: isExpiringSoon ? 'red' : 'text.secondary', fontWeight: isExpiringSoon ? 700 : 500 }}
+                title={text}
+              >
+                {text}
+              </Typography>
+            );
+          })()}
         </Box>
         <Stack
           direction="row"

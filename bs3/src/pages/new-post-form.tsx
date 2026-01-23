@@ -36,12 +36,13 @@ interface FormValues {
   body: string;
   upVoted: string[];
   downVoted: string[];
+  expiryPeriod: '24h' | '3d' | '7d';
 }
 
 const validationSchema = yup.object({
   tag: yup
     .string()
-    .matches(/^\S*$/, "Tag must not contain spaces")
+    .matches(/^[^\s]*$/, "Tag must not contain spaces")
     .matches(/^[a-zA-Z0-9]+$/, "Tag must contain only letters and numbers")
     .max(16, "Tag must be 16 characters or less"),
   author: yup.string().default("Anonymous"),
@@ -54,6 +55,9 @@ const validationSchema = yup.object({
     .string()
     .min(32, "Body must be 32 characters long.")
     .required("Body is required"),
+  expiryPeriod: yup.mixed<'24h' | '3d' | '7d'>()
+    .oneOf(['24h', '3d', '7d'])
+    .default('7d')
 });
 
 export default function PostForm(): JSX.Element {
@@ -75,6 +79,7 @@ export default function PostForm(): JSX.Element {
       body: "",
       upVoted: [],
       downVoted: [],
+      expiryPeriod: '7d',
     },
     validationSchema,
     onSubmit: (values: FormValues) => {
@@ -87,6 +92,7 @@ export default function PostForm(): JSX.Element {
       ...values,
       userId,
       timestamp: new Date().toISOString(),
+      expiryPeriod: values.expiryPeriod || '7d',
     };
     if (!newPost.author) {
       newPost.author = "anonymous";
@@ -171,6 +177,23 @@ export default function PostForm(): JSX.Element {
                     ),
                   }}
                 />
+                <TextField
+                  select
+                  id="expiryPeriod"
+                  name="expiryPeriod"
+                  label="Expires In"
+                  value={formik.values.expiryPeriod}
+                  onChange={formik.handleChange}
+                  SelectProps={{ native: true }}
+                  sx={{ mt: 2 }}
+                >
+                  <option value="24h">24 hours</option>
+                  <option value="3d">3 days</option>
+                  <option value="7d">7 days</option>
+                </TextField>
+                <FormHelperText>
+                  Duration for which the post stays visible
+                </FormHelperText>
                 <TextField
                   id="author"
                   name="author"
