@@ -21,6 +21,10 @@ jobs:
         run: yarn install
         working-directory: ./bs3
 
+      - name: Lint web
+        run: yarn lint
+        working-directory: ./bs3
+
       - name: Build web
         run: yarn build
         working-directory: ./bs3
@@ -35,6 +39,10 @@ jobs:
 
       - name: Install function dependencies
         run: yarn install
+        working-directory: ./bs3-functions/node-functions
+
+      - name: Lint functions
+        run: yarn lint
         working-directory: ./bs3-functions/node-functions
 
       - name: Install Firebase CLI

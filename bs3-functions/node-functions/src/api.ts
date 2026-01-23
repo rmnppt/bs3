@@ -1,4 +1,4 @@
-import axios, { RawAxiosRequestHeaders } from "axios";
+import axios, { RawAxiosRequestHeaders, isAxiosError } from "axios";
 import Ajv, { JSONSchemaType } from "ajv";
 import addFormats from "ajv-formats";
 
@@ -150,7 +150,7 @@ export class Perplexity {
     const response = await client.getHeadlines();
     console.log(JSON.stringify(response, null, 2));
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
+    if (isAxiosError(error) && error.response) {
       console.error(
         "API Error Response:",
         JSON.stringify(error.response.data, null, 2),

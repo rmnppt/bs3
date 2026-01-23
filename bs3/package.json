@@ -35,11 +35,12 @@
     "@typescript-eslint/eslint-plugin": "^8.29.1",
     "@typescript-eslint/parser": "^8.29.1",
     "env-cmd": "^10.1.0",
-    "eslint": "^9.24.0",
+    "eslint": "^8.57.0",
     "eslint-config-react-app": "^7.0.1",
     "typescript": "^5.8.3"
   },
   "scripts": {
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
     "start": "react-scripts start",
     "start:dev": "env-cmd -f .env.development.local yarn start",
     "start:prod": "env-cmd -f .env.production yarn start",
