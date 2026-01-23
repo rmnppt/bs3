@@ -4,15 +4,15 @@ import { onSchedule } from "firebase-functions/v2/scheduler";
 
 const firestore = admin.firestore();
 
-type Expiry = '24h' | '3d' | '7d';
+type Expiry = "24h" | "3d" | "7d";
 const EXPIRY_MS: Record<Expiry, number> = {
-  '24h': 24 * 60 * 60 * 1000,
-  '3d': 3 * 24 * 60 * 60 * 1000,
-  '7d': 7 * 24 * 60 * 60 * 1000
+  "24h": 24 * 60 * 60 * 1000,
+  "3d": 3 * 24 * 60 * 60 * 1000,
+  "7d": 7 * 24 * 60 * 60 * 1000,
 };
 
 function expiresAt(timestamp: string, expiry?: Expiry): number {
-  const msAdd = EXPIRY_MS[expiry || '7d'] ?? EXPIRY_MS['7d'];
+  const msAdd = EXPIRY_MS[expiry || "7d"] ?? EXPIRY_MS["7d"];
   return new Date(timestamp).getTime() + msAdd;
 }
 
@@ -36,5 +36,7 @@ export const archiveExpiredPosts = onSchedule("every 60 minutes", async () => {
       archived++;
     }
   }
-  functions.logger.info(`Archived ${archived} posts at ${new Date().toISOString()}`);
+  functions.logger.info(
+    `Archived ${archived} posts at ${new Date().toISOString()}`,
+  );
 });
