@@ -1,5 +1,6 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
+if (!admin.apps.length) admin.initializeApp();
 import { onSchedule } from "firebase-functions/v2/scheduler";
 
 const firestore = admin.firestore();
