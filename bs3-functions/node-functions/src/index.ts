@@ -34,7 +34,7 @@ export { archiveExpiredPosts } from "./archiveExpiredPosts";
 // In the v1 API, each function can only serve one request per container, so
 // this will be the maximum concurrent request count.
 functions.setGlobalOptions({ maxInstances: 10 });
-admin.initializeApp();
+if (!admin.apps.length) admin.initializeApp();
 const firestore = admin.firestore();
 
 // Schedule to run every Sunday at midnight UTC
